@@ -39,8 +39,23 @@ def scrape_fixtures
 
   rows.each do |row|
     data = row.css('td')
+
+    # Shorten round name
+    round = case data[0].text
+    when 'Finals W1'
+      'FW1'
+    when 'Semi Finals'
+      'SF'
+    when 'Prelim Finals'
+      'PF'
+    when 'Grand Final'
+      'GF'
+    else
+      data[0].text
+    end
+
     new_fixture = Fixture.create(
-      :round => data[0].text,
+      :round => round,
       :datetime => DateTime.parse(data[1].text).new_offset(
         DateTime.parse("04/04/2021 16:00") - DateTime.parse(data[1].text) >= 0 ?
         "+10:00" : "+11:00"
