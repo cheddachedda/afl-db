@@ -6,19 +6,15 @@
     <tr>
       <th>Key</th>
       <th>Value</th>
-      <th>Edit</th>
     </tr>
   </thead>
 
   <tbody>
 
-    <% @keys.each do |key| %>
+    <% Club.column_names.each do |key| %>
       <tr>
         <td><%= key %></td>
         <td><%= @club[key] %></td>
-        <td>
-          <i class="fa-solid fa-pen-to-square"></i>
-        </td>
       </tr>
     <% end %>
 
