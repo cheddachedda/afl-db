@@ -11,6 +11,7 @@ class ClubsController < ApplicationController
 
   def show
     @club = Club.find params[:id]
+    @keys = [ :id, :name, :abbreviation, :fixtures_alias, :afl_tables_alias, :image ]
   end
 
   def edit

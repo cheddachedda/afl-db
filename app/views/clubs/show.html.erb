@@ -6,34 +6,22 @@
     <tr>
       <th>Key</th>
       <th>Value</th>
+      <th>Edit</th>
     </tr>
   </thead>
 
   <tbody>
-    <tr>
-      <td>id</td>
-      <td><%= @club.id %></td>
-    </tr>
-    <tr>
-      <td>name</td>
-      <td><%= @club.name %></td>
-    </tr>
-    <tr>
-      <td>abbreviation</td>
-      <td><%= @club.abbreviation %></td>
-    </tr>
-    <tr>
-      <td>fixtures_alias</td>
-      <td><%= @club.fixtures_alias %></td>
-    </tr>
-    <tr>
-      <td>afl_tables_alias</td>
-      <td><%= @club.afl_tables_alias %></td>
-    </tr>
-    <tr>
-      <td>image</td>
-      <td><%= @club.image %></td>
-    </tr>
+
+    <% @keys.each do |key| %>
+      <tr>
+        <td><%= key %></td>
+        <td><%= @club[key] %></td>
+        <td>
+          <i class="fa-solid fa-pen-to-square"></i>
+        </td>
+      </tr>
+    <% end %>
+
   </tbody>
-  
+
 </table>
