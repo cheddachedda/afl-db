@@ -1,2 +1,21 @@
 <h1>Clubs#index</h1>
 <p>Find me in app/views/clubs/index.html.erb</p>
+
+<table>
+  <tr>
+    <th>name</th>
+    <th>abbreviation</th>
+    <th>fixtures_alias</th>
+    <th>afl_tables_alias</th>
+    <th>image</th>
+  </tr>
+  <% @clubs.each do |club| %>
+    <tr>
+      <td><%= link_to club.name, club_path(club.id) %></td>
+      <td><%= club.abbreviation %></td>
+      <td><%= club.fixtures_alias %></td>
+      <td><%= club.afl_tables_alias %></td>
+      <td><%= club.image %></td>
+    </tr>
+  <% end %>
+</table>
