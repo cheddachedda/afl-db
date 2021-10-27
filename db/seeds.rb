@@ -75,6 +75,8 @@ puts "#{ Fixture.count } games created and associated"
 
 ################################## PLAYERS #####################################
 
+Player.destroy_all
+
 # I. Scrape for basic player data
 
 def scrape_players
@@ -228,8 +230,10 @@ puts "Associating Fixtures and Players"
 fixtures_and_players_start_time = Time.new
 Player.all.each do |player|
   puts "Associating fixtures for #{ player.name }"
-  player.club.fixtures.each do |fixture|
-    player.fixtures << fixture
+  unless player.club.empty?
+    player.club.fixtures.each do |fixture|
+      player.fixtures << fixture
+    end
   end
 end
 
