@@ -41,11 +41,10 @@ def scrape_fixtures
     data = row.css('td')
     new_fixture = Fixture.create(
       :round => data[0].text,
-      :datetime => data[1].text,
-      # :datetime => DateTime.parse(data[1].text).offset(
-      #   DateTime.parse("04/04/2021 16:00") - DateTime.parse(data[1].text) >= 0 ?
-      #   "+10:00" : "+11:00"
-      # ),
+      :datetime => DateTime.parse(data[1].text).new_offset(
+        DateTime.parse("04/04/2021 16:00") - DateTime.parse(data[1].text) >= 0 ?
+        "+10:00" : "+11:00"
+      ),
       :venue => data[2].text,
       :home => data[3].text,
       :away => data[4].text,
@@ -57,7 +56,7 @@ def scrape_fixtures
 end
 
 scrape_fixtures
-puts "#{ Fixture.count } games created and associated in #{ fixtures_runtime } seconds"
+puts "#{ Fixture.count } games created and associated"
 
 # rails db:drop
 # rails db:create

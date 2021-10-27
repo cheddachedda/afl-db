@@ -31,7 +31,7 @@ ActiveRecord::Schema.define(version: 2021_10_27_054929) do
 
   create_table "fixtures", force: :cascade do |t|
     t.string "round"
-    t.string "datetime"
+    t.datetime "datetime"
     t.string "venue"
     t.string "home"
     t.string "away"
