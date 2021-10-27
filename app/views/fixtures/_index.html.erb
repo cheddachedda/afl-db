@@ -1,0 +1,32 @@
+<h1>Fixtures</h1>
+
+<div class="rounds-nav-bar">
+  <% @rounds.each do |round| %>
+    <%= link_to round, round_path(round) %>
+  <% end %>
+</div>
+
+<% if @fixtures.present? %>
+  <table>
+    <thead>
+      <tr>
+        <th>datetime</th>
+        <th colspan="2">home</th>
+        <th colspan="2">away</th>
+        <th>venue</th>
+      </tr>
+    </thead>
+
+    <% @fixtures.each do |fixture| %>
+      <tr>
+        <td><%= fixture.datetime %></td>
+        <td><%= fixture.home %></td>
+        <td><%= fixture.home_score %></td>
+        <td><%= fixture.away %></td>
+        <td><%= fixture.away_score %></td>
+        <td><%= fixture.venue %></td>
+      </tr>
+    <% end %>
+
+  </table>
+<% end %>
