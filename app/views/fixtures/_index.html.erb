@@ -10,21 +10,25 @@
   <table>
     <thead>
       <tr>
-        <th>datetime</th>
-        <th colspan="2">home</th>
-        <th colspan="2">away</th>
+        <th>date</th>
+        <th>time</th>
+        <th>home</th>
+        <th></th>
+        <th>away</th>
         <th>venue</th>
+        <th></th>
       </tr>
     </thead>
 
     <% @fixtures.each do |fixture| %>
       <tr>
-        <td><%= fixture.datetime %></td>
+        <td><%= fixture.datetime.localtime.strftime('%a  %d %b') %></td>
+        <td><%= fixture.datetime.localtime.strftime('%l:%M%P') %></td>
         <td><%= fixture.home %></td>
-        <td><%= fixture.home_score %></td>
+        <td><%= fixture.home_score %> - <%= fixture.away_score %></td>
         <td><%= fixture.away %></td>
-        <td><%= fixture.away_score %></td>
         <td><%= fixture.venue %></td>
+        <td><i class="fa-solid fa-circle-chevron-right"/></td>
       </tr>
     <% end %>
 
