@@ -18,7 +18,8 @@ class FixturesController < ApplicationController
   def show
     @round = params[:round] # necessary for :breadcrumbs
     @fixture = Fixture.find params[:id]
-    @fixture_short_name = "#{ @fixture.clubs.first.abbreviation } v #{ @fixture.clubs.last.abbreviation }"
+    @fixture_short_name = "#{ @round } #{ @fixture.clubs.first.abbreviation } v #{ @fixture.clubs.last.abbreviation }"
+    @players = @fixture.players
   end
 
   def edit

@@ -1,3 +1,21 @@
 <%= render 'breadcrumbs' %>
 
-<%= @fixture.round %>
+<div class="scoreboard">
+  <div class="team-container home">
+    <p><%= @fixture.clubs[0].name %></p>
+    <p><%= "nth" %></p>
+  </div>
+
+  <div class="score-container">
+    <p><%= @fixture.home_score %> <%= @fixture.away_score %></p>
+  </div>
+
+  <div class="team-container away">
+    <p><%= @fixture.clubs[1].name %></p>
+    <p><%= "nth" %></p>
+  </div>
+</div>
+
+<table>
+
+</table>

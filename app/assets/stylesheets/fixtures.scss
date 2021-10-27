@@ -1,3 +1,15 @@
 // Place all the styles related to the Fixtures controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: https://sass-lang.com/
+
+.scoreboard {
+  display: flex;
+}
+
+.team-container {
+  flex-grow: 4.5;
+}
+
+.score-container {
+  flex-grow: 1;
+}
