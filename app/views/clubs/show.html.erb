@@ -7,7 +7,7 @@
   <thead>
     <tr>
       <th>Key</th>
-      <th>Value</th>
+      <th colspan="4">Value</th>
     </tr>
   </thead>
 
@@ -16,7 +16,7 @@
     <% Club.column_names.each do |key| %>
       <tr>
         <td><%= key %></td>
-        <td>
+        <td colspan="4">
           <%= @club[key] %>
 
           <% if [ "name", "abbreviation" ].include? key %>
