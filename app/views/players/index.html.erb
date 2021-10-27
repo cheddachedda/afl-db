@@ -1,2 +1,21 @@
-<h1>Players#index</h1>
-<p>Find me in app/views/players/index.html.erb</p>
+<h1>All Players</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Player</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @players.take(50).each do |player| %>
+      <tr>
+        <td>
+          <% name = "#{ player.first_name } #{ player.last_name }" %>
+          <%= link_to name, player_path(player.id) %>
+        </td>
+        <td><%= player.club.abbreviation %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
