@@ -1,3 +1,5 @@
+<%= render 'breadcrumbs' %>
+
 <h1>All Clubs</h1>
 
 <table>
@@ -10,11 +12,11 @@
   <tbody>
     <% @clubs.each do |club| %>
       <tr>
-        <td><%= club.name %></td>
         <td>
           <a href="<%= club_path(club.id) %>">
             <i class="fa-solid fa-circle-arrow-right"></i>
           </a>
+          <%= link_to club.name, club_path(club.id) %>
         </td>
       </tr>
     <% end %>
