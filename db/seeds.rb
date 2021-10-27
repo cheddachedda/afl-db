@@ -51,7 +51,7 @@ def scrape_fixtures
     when 'Grand Final'
       'GF'
     else
-      data[0].text
+      "R#{data[0].text}"
     end
 
     new_fixture = Fixture.create(
