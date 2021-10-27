@@ -1,3 +1,7 @@
+require "date"
+require "httparty"
+require "nokogiri"
+
 Club.destroy_all
 
 c1 = Club.create :name => 'Adelaide Crows', :abbreviation => 'ADE', :fixtures_alias => 'Adelaide Crows', :afl_tables_alias => 'Adelaide'
@@ -20,3 +24,42 @@ c17 = Club.create :name => 'West Coast Eagles', :abbreviation => 'WCE', :fixture
 c18 = Club.create :name => 'Western Bulldogs', :abbreviation => 'WBD', :fixtures_alias => 'Western Bulldogs', :afl_tables_alias => 'Western Bulldogs'
 
 puts "#{ Club.count } clubs created"
+
+
+################################# FIXTURES #####################################
+
+Fixture.destroy_all
+
+def scrape_fixtures
+  url = "https://fixturedownload.com/results/afl-2021"
+  unparsed_page = HTTParty.get(url)
+  parsed_page = Nokogiri::HTML(unparsed_page)
+
+  rows = parsed_page.css('tr').drop 1
+
+  rows.each do |row|
+    data = row.css('td')
+    new_fixture = Fixture.create(
+      :round => data[0].text,
+      :datetime => data[1].text,
+      # :datetime => DateTime.parse(data[1].text).offset(
+      #   DateTime.parse("04/04/2021 16:00") - DateTime.parse(data[1].text) >= 0 ?
+      #   "+10:00" : "+11:00"
+      # ),
+      :venue => data[2].text,
+      :home => data[3].text,
+      :away => data[4].text,
+      :home_score => data[5].text.split(' - ')[0].to_i,
+      :away_score => data[5].text.split(' - ')[1].to_i
+    )
+    new_fixture.clubs << Club.find_by(:fixtures_alias => data[3].text) << Club.find_by(:fixtures_alias => data[4].text)
+  end
+end
+
+scrape_fixtures
+puts "#{ Fixture.count } games created and associated in #{ fixtures_runtime } seconds"
+
+# rails db:drop
+# rails db:create
+# rails db:migrate
+# rails db:seed

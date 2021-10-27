@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_10_27_001550) do
+ActiveRecord::Schema.define(version: 2021_10_27_052801) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -22,6 +22,16 @@ ActiveRecord::Schema.define(version: 2021_10_27_001550) do
     t.string "website"
     t.string "fixtures_alias"
     t.string "afl_tables_alias"
+  end
+
+  create_table "fixtures", force: :cascade do |t|
+    t.string "round"
+    t.string "datetime"
+    t.string "venue"
+    t.string "home"
+    t.string "away"
+    t.integer "home_score"
+    t.integer "away_score"
   end
 
 end
