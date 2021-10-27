@@ -28,7 +28,12 @@
         <td><%= fixture.home_score %> - <%= fixture.away_score %></td>
         <td><%= fixture.away %></td>
         <td><%= fixture.venue %></td>
-        <td><i class="fa-solid fa-circle-chevron-right"/></td>
+        <td>
+          <a
+            class="fa-solid fa-circle-chevron-right"
+            href=<%= fixture_path(fixture.round, fixture.id) %>
+          />
+        </td>
       </tr>
     <% end %>
 
