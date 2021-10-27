@@ -45,8 +45,39 @@ ActiveRecord::Schema.define(version: 2021_10_27_054929) do
   end
 
   create_table "players", force: :cascade do |t|
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.string "name"
+    t.string "first_name"
+    t.string "last_name"
+    t.integer "club_id"
+    t.integer "jersey"
+    t.string "position", default: [], array: true
+    t.integer "fantasy_scores", default: [], array: true
+    t.integer "games_played"
+    t.float "average_fantasy_score"
+    t.integer "kicks", default: [], array: true
+    t.integer "marks", default: [], array: true
+    t.integer "handballs", default: [], array: true
+    t.integer "disposals", default: [], array: true
+    t.integer "goals", default: [], array: true
+    t.integer "behinds", default: [], array: true
+    t.integer "hit_outs", default: [], array: true
+    t.integer "tackles", default: [], array: true
+    t.integer "rebound_50s", default: [], array: true
+    t.integer "inside_50s", default: [], array: true
+    t.integer "clearances", default: [], array: true
+    t.integer "clangers", default: [], array: true
+    t.integer "free_kicks_for", default: [], array: true
+    t.integer "free_kicks_against", default: [], array: true
+    t.integer "brownlow_votes", default: [], array: true
+    t.integer "contested_possessions", default: [], array: true
+    t.integer "uncontested_possessions", default: [], array: true
+    t.integer "contested_marks", default: [], array: true
+    t.integer "marks_inside_50", default: [], array: true
+    t.integer "one_percenters", default: [], array: true
+    t.integer "bounces", default: [], array: true
+    t.integer "goal_assists", default: [], array: true
+    t.integer "percentage_time_on_ground", default: [], array: true
+    t.string "expected_dtlive_alias"
   end
 
 end

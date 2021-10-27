@@ -73,6 +73,45 @@ end
 scrape_fixtures
 puts "#{ Fixture.count } games created and associated"
 
+################################## PLAYERS #####################################
+
+def scrape_players
+  url = "https://afltables.com/afl/stats/2021.html"
+  unparsed_page = HTTParty.get(url)
+  parsed_page = Nokogiri::HTML(unparsed_page)
+
+  tables = parsed_page.css('.sortable')
+  tables.each do |t|
+    club = t.css('a').first.text
+    t.css('tbody')[0].css('tr').each do |tr|
+      new_player = Player.new(
+        :name => tr.children[1].text,
+        :first_name => tr.children[1].text.split(', ')[1],
+        :last_name => tr.children[1].text.split(', ')[0],
+        :club => Club.find_by(afl_tables_alias: club),
+        :jersey => tr.children[0].text.to_i,
+      )
+      new_player[:expected_dtlive_alias] = "#{ new_player[:first_name][0] } #{ new_player[:last_name]}"
+      new_player.save
+    end
+  end
+end
+
+scrape_players
+puts "#{ Player.count } players created"
+
+####################### ASSOCIATE FIXTURES + PLAYERS ###########################
+
+puts "Associating Fixtures and Players"
+fixtures_and_players_start_time = Time.new
+Player.all.each do |player|
+  player.club.fixtures.each do |fixture|
+    player.fixtures << fixture
+  end
+end
+
+puts "Created #{ 22 * Player.count } Fixture-Player associations"
+
 # rails db:drop
 # rails db:create
 # rails db:migrate
