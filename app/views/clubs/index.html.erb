@@ -1,20 +1,31 @@
 <h1>All Clubs</h1>
 
 <table>
-  <tr>
-    <th>name</th>
-    <th>abbreviation</th>
-    <th>fixtures_alias</th>
-    <th>afl_tables_alias</th>
-    <th>image</th>
-  </tr>
-  <% @clubs.each do |club| %>
+  <thead>
     <tr>
-      <td><%= link_to club.name, club_path(club.id) %></td>
-      <td><%= club.abbreviation %></td>
-      <td><%= club.fixtures_alias %></td>
-      <td><%= club.afl_tables_alias %></td>
-      <td><%= club.image %></td>
+      <th>name</th>
+      <th>abbreviation</th>
+      <th>fixtures_alias</th>
+      <th>afl_tables_alias</th>
+      <th>image</th>
     </tr>
-  <% end %>
+  </thead>
+
+  <tbody>
+    <% @clubs.each do |club| %>
+      <tr>
+        <td><%= link_to club.name, club_path(club.id) %></td>
+        <td><%= club.abbreviation %></td>
+        <td><%= club.fixtures_alias %></td>
+        <td><%= club.afl_tables_alias %></td>
+        <td><%= club.image %></td>
+      </tr>
+    <% end %>
+  </tbody>
+
+  <tfoot>
+    <tr>
+      <td><%= link_to '+ Add a club', new_club_path %></td>
+    </tr>
+  </tfoot>
 </table>
