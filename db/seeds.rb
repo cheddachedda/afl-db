@@ -67,6 +67,7 @@ def scrape_fixtures
       :away_score => data[5].text.split(' - ')[1].to_i
     )
     new_fixture.clubs << Club.find_by(:fixtures_alias => data[3].text) << Club.find_by(:fixtures_alias => data[4].text)
+    puts "#{ round } #{ new_fixture[:home] } v #{ new_fixture[:away] } created"
   end
 end
 
@@ -97,6 +98,7 @@ def scrape_players
       )
       new_player[:expected_dtlive_alias] = "#{ new_player[:first_name][0] } #{ new_player[:last_name]}"
       new_player.save
+      puts "#{ new_player[:name] } created"
     end
   end
 end
@@ -227,17 +229,19 @@ fantasy_scraper
 ####################### ASSOCIATE FIXTURES + PLAYERS ###########################
 
 puts "Associating Fixtures and Players"
+association_count = 0
 fixtures_and_players_start_time = Time.new
 Player.all.each do |player|
   puts "Associating fixtures for #{ player.name }"
-  unless player.club.empty?
+  unless player.club.nil?
     player.club.fixtures.each do |fixture|
       player.fixtures << fixture
+      association_count += 1
     end
   end
 end
 
-puts "Created #{ 22 * Player.count } Fixture-Player associations"
+puts "Created Fixture-Player associations for #{ association_count } players"
 
 # rails db:drop
 # rails db:create
