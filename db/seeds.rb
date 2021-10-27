@@ -5,6 +5,7 @@ require "nokogiri"
 start_time = Time.new
 
 Club.destroy_all
+puts "Creating clubs"
 
 c1 = Club.create :name => 'Adelaide Crows', :abbreviation => 'ADE', :fixtures_alias => 'Adelaide Crows', :afl_tables_alias => 'Adelaide'
 c2 = Club.create :name => 'Brisbane Lions', :abbreviation => 'BRL', :fixtures_alias => 'Brisbane Lions', :afl_tables_alias => 'Brisbane Lions'
@@ -39,7 +40,7 @@ def scrape_fixtures
 
   rows = parsed_page.css('tr').drop 1
 
-  rows.each do |row|
+  rows.each_with_index do |row, i|
     data = row.css('td')
 
     # Shorten round name
@@ -57,22 +58,24 @@ def scrape_fixtures
     end
 
     new_fixture = Fixture.create(
+      :round_id => i + 1,
       :round => round,
       :datetime => DateTime.parse(data[1].text).new_offset(
         DateTime.parse("04/04/2021 16:00") - DateTime.parse(data[1].text) >= 0 ?
         "+10:00" : "+11:00"
       ),
       :venue => data[2].text,
-      :home => data[3].text,
-      :away => data[4].text,
+      :home_id => Club.find_by(fixtures_alias: data[3].text).id,
+      :away_id => Club.find_by(fixtures_alias: data[4].text).id,
       :home_score => data[5].text.split(' - ')[0].to_i,
       :away_score => data[5].text.split(' - ')[1].to_i
     )
-    new_fixture.clubs << Club.find_by(:fixtures_alias => data[3].text) << Club.find_by(:fixtures_alias => data[4].text)
-    puts "#{ round } #{ new_fixture[:home] } v #{ new_fixture[:away] } created"
+    new_fixture.clubs << Club.find_by(fixtures_alias: data[3].text) << Club.find_by(fixtures_alias: data[4].text)
+    puts "#{ round } #{ new_fixture[:home_id] } v #{ new_fixture[:away_id] } created"
   end
 end
 
+puts "Scraping fixtures"
 scrape_fixtures
 puts "#{ Fixture.count } games created and associated"
 
@@ -105,7 +108,9 @@ def scrape_players
   end
 end
 
+puts "Scraping basic player info"
 scrape_players
+puts "#{ Player.count } players created"
 
 # II. Scrape for all game-by-game stats from afltables.com
 
@@ -123,7 +128,7 @@ def scrape_player_stats player
 
     rows = parsed_page.css('.sortable').last.css('tbody')[0].css('tr')
 
-    categories = [ :kicks, :marks, :handballs, :goals, :behinds, :hit_outs, :tackles, :free_kicks_for, :free_kicks_against ]
+    categories = [ :kicks, :marks, :handballs, :disposals, :goals, :behinds, :hit_outs, :tackles, :free_kicks_for, :free_kicks_against, :percentage_time_on_ground ]
 
     # Initialise player hash
     player = {}
@@ -151,14 +156,16 @@ def scrape_player_stats player
       end
 
       player[:kicks][round - 1] = data[5].text.to_i
-      player[:handballs][round - 1] = data[6].text.to_i
-      player[:marks][round - 1] = data[7].text.to_i
+      player[:marks][round - 1] = data[6].text.to_i
+      player[:handballs][round - 1] = data[7].text.to_i
+      player[:disposals][round - 1] = data[8].text.to_i
       player[:goals][round - 1] = data[9].text.to_i
       player[:behinds][round - 1] = data[10].text.to_i
       player[:hit_outs][round - 1] = data[11].text.to_i
       player[:tackles][round - 1] = data[12].text.to_i
       player[:free_kicks_for][round - 1] = data[17].text.to_i
       player[:free_kicks_against][round - 1] = data[18].text.to_i
+      player[:percentage_time_on_ground][round - 1] = data[27].text.to_i
     end
 
     # Updates each Player model
@@ -166,6 +173,9 @@ def scrape_player_stats player
     player.keys.drop(1).each do |key|
       Player.update id, key => player[key]
     end
+    games_played_array = player[:percentage_time_on_ground].filter{ |n| n }
+    Player.update id, :games_played => games_played_array.count
+    Player.update id, :average_fantasy_score => games_played_array.sum / games_played_array.count
 
     result = true
   end
@@ -174,6 +184,7 @@ def scrape_player_stats player
 end
 
 stats_scrape_count = 0
+puts "Scraping player stats"
 Player.all.each do |player|
   if scrape_player_stats player
     stats_scrape_count += 1
@@ -226,6 +237,7 @@ def fantasy_scraper
   puts "#{ count } of #{ Player.count } players' dtlive data added"
 end
 
+"Scraping fantasy data"
 fantasy_scraper
 
 ####################### ASSOCIATE FIXTURES + PLAYERS ###########################

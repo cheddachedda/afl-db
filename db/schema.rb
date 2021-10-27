@@ -30,11 +30,12 @@ ActiveRecord::Schema.define(version: 2021_10_27_054929) do
   end
 
   create_table "fixtures", force: :cascade do |t|
+    t.integer "round_id"
     t.string "round"
     t.datetime "datetime"
     t.string "venue"
-    t.string "home"
-    t.string "away"
+    t.integer "home_id"
+    t.integer "away_id"
     t.integer "home_score"
     t.integer "away_score"
   end
