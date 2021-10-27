@@ -10,6 +10,7 @@ class ClubsController < ApplicationController
   end
 
   def show
+    @club = Club.find params[:id]
   end
 
   def edit

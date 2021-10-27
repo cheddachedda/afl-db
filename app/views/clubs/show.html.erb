@@ -1,2 +1,32 @@
-<h1>Clubs#show</h1>
-<p>Find me in app/views/clubs/show.html.erb</p>
+<h1><%= @club.name %></h1>
+
+<table>
+  <tr>
+    <th>Key</th>
+    <th>Value</th>
+  </tr>
+  <tr>
+    <td>id</td>
+    <td><%= @club.id %></td>
+  </tr>
+  <tr>
+    <td>name</td>
+    <td><%= @club.name %></td>
+  </tr>
+  <tr>
+    <td>abbreviation</td>
+    <td><%= @club.abbreviation %></td>
+  </tr>
+  <tr>
+    <td>fixtures_alias</td>
+    <td><%= @club.fixtures_alias %></td>
+  </tr>
+  <tr>
+    <td>afl_tables_alias</td>
+    <td><%= @club.afl_tables_alias %></td>
+  </tr>
+  <tr>
+    <td>image</td>
+    <td><%= @club.image %></td>
+  </tr>
+</table>
