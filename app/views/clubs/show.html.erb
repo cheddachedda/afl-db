@@ -7,7 +7,8 @@
   <thead>
     <tr>
       <th>Key</th>
-      <th colspan="4">Value</th>
+      <th colspan="3">Value</th>
+      <th>Edit</th>
     </tr>
   </thead>
 
@@ -16,15 +17,15 @@
     <% Club.column_names.each do |key| %>
       <tr>
         <td><%= key %></td>
-        <td colspan="4">
+        <td colspan="3">
           <%= @club[key] %>
-
-          <% if [ "name", "abbreviation" ].include? key %>
+        </td>
+        <td>
+          <% if @editable.include? key %>
             <a href="">
               <i class="fa-solid fa-pen-to-square"></i>
             </a>
           <% end %>
-
         </td>
       </tr>
     <% end %>

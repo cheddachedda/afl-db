@@ -3,9 +3,10 @@ class CreateClubs < ActiveRecord::Migration[6.1]
     create_table :clubs do |t|
       t.string :name
       t.string :abbreviation
+      t.text :logo
+      t.string :website
       t.string :fixtures_alias
       t.string :afl_tables_alias
-      t.text :image
     end
   end
 end

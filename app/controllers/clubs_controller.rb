@@ -5,5 +5,6 @@ class ClubsController < ApplicationController
 
   def show
     @club = Club.find params[:id]
+    @editable = [ "name", "abbreviation", "logo", "website" ]
   end
 end
