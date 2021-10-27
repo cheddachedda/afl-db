@@ -2,6 +2,8 @@ require "date"
 require "httparty"
 require "nokogiri"
 
+start_time = Time.new
+
 Club.destroy_all
 
 c1 = Club.create :name => 'Adelaide Crows', :abbreviation => 'ADE', :fixtures_alias => 'Adelaide Crows', :afl_tables_alias => 'Adelaide'
@@ -242,6 +244,10 @@ Player.all.each do |player|
 end
 
 puts "Created Fixture-Player associations for #{ association_count } players"
+
+end_time = Time.new
+run_time = (end_time - start_time).round
+puts "Seeded in #{ run_time } seconds"
 
 # rails db:drop
 # rails db:create
