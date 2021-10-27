@@ -255,7 +255,7 @@ Player.all.each do |player|
   end
 end
 
-puts "Created Fixture-Player associations for #{ association_count } players"
+puts "Created #{ association_count } fixture-player associations"
 
 end_time = Time.new
 run_time = (end_time - start_time).round
