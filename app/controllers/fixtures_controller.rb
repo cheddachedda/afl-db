@@ -1,6 +1,6 @@
 class FixturesController < ApplicationController
   def index
-    @rounds = Fixture.all.pluck(:round).uniq
+    redirect_to round_path(Fixture.last.round)
   end
 
   def round
