@@ -41,4 +41,8 @@ class Fixture < ApplicationRecord
   def is_finals
     self.round[0] != 'R'
   end
+
+  def short_name
+    "#{ self.home.abbreviation } v #{ self.away.abbreviation }"
+  end
 end

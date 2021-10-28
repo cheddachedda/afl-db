@@ -6,7 +6,7 @@
 
   <% if @fixture.present? %>
     <%= " / " %>
-    <%= link_to @fixture_short_name, fixture_path(@round, @fixture.id) %>
+    <%= link_to @fixture.short_name, fixture_path(@round, @fixture.id) %>
   <% end %>
 
 </h3>
