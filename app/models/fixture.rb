@@ -2,6 +2,21 @@ class Fixture < ApplicationRecord
   has_and_belongs_to_many :clubs
   has_and_belongs_to_many :players
 
+  def round
+    case self.round_id
+    when 24
+      'FW1'
+    when 25
+      'SF'
+    when 26
+      'PF'
+    when 27
+      'GF'
+    else
+      self.round_id.to_s
+    end
+  end
+
   def home
     Club.find home_id
   end
