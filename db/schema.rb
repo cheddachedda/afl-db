@@ -53,8 +53,6 @@ ActiveRecord::Schema.define(version: 2021_10_27_054929) do
     t.integer "jersey"
     t.string "position", default: [], array: true
     t.integer "fantasy_scores", default: [], array: true
-    t.integer "games_played"
-    t.float "average_fantasy_score"
     t.integer "kicks", default: [], array: true
     t.integer "marks", default: [], array: true
     t.integer "handballs", default: [], array: true

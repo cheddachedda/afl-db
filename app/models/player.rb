@@ -2,6 +2,16 @@ class Player < ApplicationRecord
   belongs_to :club, :optional => true
   has_and_belongs_to_many :fixtures
 
+  def games_played
+    self.percentage_time_on_ground.filter{|n| n}.count
+  end
+
+  def average_fantasy_score
+    if games_played > 0 && self.fantasy_scores.count > 0
+      (self.fantasy_scores.filter{|n| n}.sum / self.games_played.to_f).round 2
+    end
+  end
+
   def get_stats_by_round_id id
     i = self.fixtures.index{ |f| f.round_id == id } - 1
     stats = {

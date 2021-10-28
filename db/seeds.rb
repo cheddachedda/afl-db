@@ -181,9 +181,6 @@ def scrape_player_stats player
       Player.update id, key => player[key]
     end
     games_played_array = player[:percentage_time_on_ground].filter{ |n| n }
-    Player.update id, :games_played => games_played_array.count
-    Player.update id, :average_fantasy_score => games_played_array.sum / games_played_array.count
-
     result = true
   end
 
@@ -220,8 +217,6 @@ def fantasy_scraper
         nil : rows[i].children[col].text.to_i
       }
     }
-    player[:games] = player[:fantasy_scores].select{|n|n}.count
-    player[:average] = player[:fantasy_scores].select{|n|n}.sum.to_f / player[:games]
 
     players << player
   end

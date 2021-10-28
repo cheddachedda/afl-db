@@ -9,8 +9,6 @@ class CreatePlayers < ActiveRecord::Migration[6.1]
 
       t.string :position, :array => true, :default => []
       t.integer :fantasy_scores, :array => true, :default => []
-      t.integer :games_played
-      t.float :average_fantasy_score
 
       t.integer :kicks, :array => true, :default => []
       t.integer :marks, :array => true, :default => []
