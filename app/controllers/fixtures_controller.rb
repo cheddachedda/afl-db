@@ -4,9 +4,9 @@ class FixturesController < ApplicationController
   end
 
   def round
-    @rounds = Fixture.all.pluck(:round).uniq
-    @round = params[:round_id]
-    @fixtures = Fixture.where("round = '#{ @round }'")
+    @rounds = Fixture.all.map{ |f| f.round }.uniq
+    @round = params[:round]
+    @fixtures = Fixture.all.filter{ |f| f.round == @round }
   end
 
   def show
