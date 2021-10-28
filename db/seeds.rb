@@ -181,6 +181,7 @@ puts "Scraping player stats"
 Player.all.each do |player|
   if scrape_player_stats player
     stats_scrape_count += 1
+    puts "Added stats for #{ player.first_name } #{ player.last_name }"
   end
 end
 puts "#{ stats_scrape_count } of #{ Player.count } players' stats scraped"
