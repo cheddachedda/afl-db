@@ -6,6 +6,10 @@ class Player < ApplicationRecord
     "#{ self.first_name } #{ self.last_name }"
   end
 
+  def short_name
+    "#{ self.first_name[0] }. #{ self.last_name }"
+  end
+
   def disposals
     scores = []
     (0..27).each do |i|

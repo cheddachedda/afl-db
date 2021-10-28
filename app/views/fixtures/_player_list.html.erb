@@ -1,0 +1,19 @@
+<table>
+
+  <thead>
+    <tr>
+      <th>Player</th>
+      <th>Pts</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% players.each do |player| %>
+      <tr>
+        <td><%= link_to "#{ player.short_name }", player_path(player.id) %></td>
+        <td><%= player.fantasy_scores[@r] %></td>
+      </tr>
+    <% end %>
+  </tbody>
+
+</table>

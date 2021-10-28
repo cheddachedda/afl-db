@@ -12,6 +12,6 @@ class FixturesController < ApplicationController
   def show
     @round = params[:round] # necessary for :breadcrumbs
     @fixture = Fixture.find params[:id]
-    @players = @fixture.players
+    @r = @fixture.round_id - 1
   end
 end

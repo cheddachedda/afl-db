@@ -60,4 +60,12 @@ class Fixture < ApplicationRecord
   def short_name
     "#{ self.home.abbreviation } v #{ self.away.abbreviation }"
   end
+
+  def home_players
+    self.players.filter{ |p| p.club_id == self.home_id && !p.fantasy_scores[self.round_id - 1].nil? }.sort_by{|p| p.fantasy_scores[self.round_id - 1]}.reverse
+  end
+
+  def away_players
+    self.players.filter{ |p| p.club_id == self.away_id && !p.fantasy_scores[self.round_id - 1].nil? }.sort_by{|p| p.fantasy_scores[self.round_id - 1]}.reverse
+  end
 end
