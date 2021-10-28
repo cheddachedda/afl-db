@@ -13,10 +13,8 @@ class Player < ApplicationRecord
   def disposals
     scores = []
     (0..27).each do |i|
-      if self.percentage_time_on_ground.nil?
-        scores << nil
-      else
-        scores << self.kicks + self.marks
+      unless self.percentage_time_on_ground[i].nil?
+        scores[i] = self.kicks[i] + self.handballs[i]
       end
     end
     scores
@@ -28,19 +26,17 @@ class Player < ApplicationRecord
       if self.percentage_time_on_ground[i].nil?
         scores << nil
       else
-        score = 0
         scoring = {
-          :kicks => 3,
-          :marks => 3,
-          :handballs => 2,
-          :goals => 6,
-          :behinds => 1,
-          :hit_outs => 1,
-          :free_kicks_for => 1,
-          :free_kicks_against => -3,
+          :kicks => self.kicks[i] * 3,
+          :marks => self.marks[i] * 3,
+          :handballs => self.handballs[i] * 2,
+          :goals => self.goals[i] * 6,
+          :behinds => self.behinds[i] * 1,
+          :hit_outs => self.hit_outs[i] * 1,
+          :free_kicks_for => self.free_kicks_for[i] * 1,
+          :free_kicks_against => self.free_kicks_against[i] * -3,
         }
-        scoring.keys.each { |key| score += self[key][i] * scoring[key] }
-        scores << score
+        scores << scoring.values.sum
       end
     end
     scores
