@@ -2,34 +2,56 @@
 
 <h1><%= @club.name %></h1>
 
+<h3>Fixtures</h3>
 <table>
 
-  <thead>
+  <tr>
+    <th>Round</th>
+    <th>Home</th>
+    <th>Score</th>
+    <th>Away</th>
+    <th>Venue</th>
+    <th></th>
+  </tr>
+
+  <% @club.fixtures.each do |fixture| %>
     <tr>
-      <th>Key</th>
-      <th colspan="3">Value</th>
-      <th>Edit</th>
+      <td><%= fixture.round %></td>
+      <td><%= Club.find(fixture.home_id).abbreviation %></td>
+      <td><%= fixture.home_score %> - <%= fixture.away_score %></td>
+      <td><%= Club.find(fixture.away_id).abbreviation %></td>
+      <td><%= fixture.venue %></td>
+      <td>
+        <a
+          class="fa-solid fa-circle-chevron-right"
+          href=<%= fixture_path(fixture.round, fixture.id) %>
+        />
+      </td>
     </tr>
-  </thead>
+  <% end %>
 
-  <tbody>
+</table>
 
-    <% Club.column_names.each do |key| %>
-      <tr>
-        <td><%= key %></td>
-        <td colspan="3">
-          <%= @club[key] %>
-        </td>
-        <td>
-          <% if @editable.include? key %>
-            <a href="">
-              <i class="fa-solid fa-pen-to-square"></i>
-            </a>
-          <% end %>
-        </td>
-      </tr>
-    <% end %>
+<h3>Players</h3>
+<table>
 
-  </tbody>
+  <tr>
 
+  </tr>
+
+  <% @players.each do |player| %>
+    <tr>
+      <td><%= player.jersey %></td>
+      <td><%= player.first_name %> <%= player.last_name %></td>
+      <td><%= player.position.join(' / ') %></td>
+      <td><%= player.games_played %></td>
+      <td><%= player.average_fantasy_score %></td>
+      <td>
+        <a
+          class="fa-solid fa-circle-chevron-right"
+          href=<%= player_path(player.id) %>
+        />
+      </td>
+    </tr>
+  <% end %>
 </table>

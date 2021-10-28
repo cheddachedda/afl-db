@@ -5,6 +5,6 @@ class ClubsController < ApplicationController
 
   def show
     @club = Club.find params[:id]
-    @editable = [ "name", "abbreviation", "logo", "website" ]
+    @players = @club.players.sort_by{ |player| player.average_fantasy_score || 0 }.reverse
   end
 end
