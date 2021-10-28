@@ -2,7 +2,6 @@ class CreateFixtures < ActiveRecord::Migration[6.1]
   def change
     create_table :fixtures do |t|
       t.integer :round_id
-      t.string :round
       t.datetime :datetime
       t.string :venue
       t.integer :home_id

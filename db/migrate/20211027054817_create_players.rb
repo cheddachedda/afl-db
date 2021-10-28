@@ -1,19 +1,16 @@
 class CreatePlayers < ActiveRecord::Migration[6.1]
   def change
     create_table :players do |t|
-      t.string :name
       t.string :first_name
       t.string :last_name
       t.integer :club_id
       t.integer :jersey
 
       t.string :position, :array => true, :default => []
-      t.integer :fantasy_scores, :array => true, :default => []
 
       t.integer :kicks, :array => true, :default => []
       t.integer :marks, :array => true, :default => []
       t.integer :handballs, :array => true, :default => []
-      t.integer :disposals, :array => true, :default => []
       t.integer :goals, :array => true, :default => []
       t.integer :behinds, :array => true, :default => []
       t.integer :hit_outs, :array => true, :default => []

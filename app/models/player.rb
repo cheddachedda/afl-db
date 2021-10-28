@@ -2,6 +2,42 @@ class Player < ApplicationRecord
   belongs_to :club, :optional => true
   has_and_belongs_to_many :fixtures
 
+  def disposals
+    scores = []
+    (0..27).each do |i|
+      if self.percentage_time_on_ground.nil?
+        scores << nil
+      else
+        scores << self.kicks + self.marks
+      end
+    end
+    scores
+  end
+
+  def fantasy_scores
+    scores = []
+    (0..27).each do |i|
+      if self.percentage_time_on_ground[i].nil?
+        scores << nil
+      else
+        score = 0
+        scoring = {
+          :kicks => 3,
+          :marks => 3,
+          :handballs => 2,
+          :goals => 6,
+          :behinds => 1,
+          :hit_outs => 1,
+          :free_kicks_for => 1,
+          :free_kicks_against => -3,
+        }
+        scoring.keys.each { |key| score += self[key][i] * scoring[key] }
+        scores << score
+      end
+    end
+    scores
+  end
+
   def games_played
     self.percentage_time_on_ground.filter{|n| n}.count
   end

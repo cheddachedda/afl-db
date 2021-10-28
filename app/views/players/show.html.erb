@@ -1,29 +1,6 @@
 <h1><%= @player.first_name %> <%= @player.last_name %></h1>
 
-<table>
-
-  <thead>
-    <tr>
-      <th>Key</th>
-      <th colspan="3">Value</th>
-    </tr>
-  </thead>
-
-  <tbody>
-
-    <% Player.column_names.each do |key| %>
-      <tr>
-        <td><%= key %></td>
-        <td colspan="3">
-          <%= @player[key] %>
-        </td>
-      </tr>
-    <% end %>
-
-  </tbody>
-
-</table>
-
+<h3>Game Logs</h3>
 <table>
 
   <thead>
@@ -44,11 +21,11 @@
   <tbody>
     <% (0..@player.fixtures.count).each do |i| %>
       <tr>
-        <td><%=  %></td>
+        <td><%= @player.club.fixtures[i].round if @player.club.fixtures[i].present? %></td>
         <td><%= Club.find(@opponents[i]).abbreviation if @opponents[i] %></td>
         <td><%= @player.fantasy_scores[i] %></td>
-        <td><%= @player.goals[i] %><%= "." if @player.fantasy_scores[i] %><%= @player.behinds[i] %></td>
-        <td><%= @player.disposals[i] %></td>
+        <td><%= @player.goals[i] %><%= "." if @player.percentage_time_on_ground[i] %><%= @player.behinds[i] %></td>
+        <td><%= @player.disposals[1][i] %></td>
         <td><%= @player.kicks[i] %></td>
         <td><%= @player.handballs[i] %></td>
         <td><%= @player.marks[i] %></td>
@@ -56,6 +33,30 @@
         <td><%= @player.hit_outs[i] %></td>
       </tr>
     <% end %>
+  </tbody>
+
+</table>
+
+<table>
+
+  <thead>
+    <tr>
+      <th>Key</th>
+      <th colspan="3">Value</th>
+    </tr>
+  </thead>
+
+  <tbody>
+
+    <% Player.column_names.each do |key| %>
+      <tr>
+        <td><%= key %></td>
+        <td colspan="3">
+          <%= @player[key] %>
+        </td>
+      </tr>
+    <% end %>
+
   </tbody>
 
 </table>
