@@ -14,12 +14,56 @@
  *= require_self
  */
 
- @import url('https://fonts.googleapis.com/css2?family=Noto+Sans&display=swap');
+body {
+  background-color: #FEFEFE;
+  color: #43526E;
+  margin: 0 auto;
+  max-width: 960px;
+}
 
- body {
-   font-family: 'Noto Sans', sans-serif;
- }
+h1, h2, h3 {
+  color: #243858;
+}
+
+a {
+  color: #0052CC;
+}
+
+.breadcrumbs {
+  background-color: #0052CC;
+  border-radius: 0.4em;
+  color: #F4F5F7;
+  padding: 0.2em 1em;
+}
+
+.breadcrumbs > a {
+  color: #FEFEFE;
+}
+
+.round-label {
+  background-color: #F4F5F7;
+  border-radius: 0.1em;
+  padding: 0.3em 0.35em;
+  margin: 0 0.1em;
+  text-decoration: none;
+}
+
+.key-column {
+  text-align: left;
+}
+
+.bold {
+  color: #243858;
+  font-weight: bold;
+}
+
+td {
+  color: #43526E;
+  text-align: center;
+  padding: 0 0.4em;
+}
 
 .fa-solid {
   cursor: pointer;
+  text-decoration: none;
 }

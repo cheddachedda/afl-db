@@ -26,7 +26,7 @@
       <tr>
         <td><%= @player.get_all_round_names[i] %></td>
         <td><%= @player.get_all_opponents[i] %></td>
-        <td><%= @player.fantasy_scores[i] %></td>
+        <td class="bold"><%= @player.fantasy_scores[i] %></td>
         <td><%= @player.goals[i] %><%= "." if @player.percentage_time_on_ground[i] %><%= @player.behinds[i] %></td>
         <td><%= @player.disposals[i] %></td>
         <td><%= @player.kicks[i] %></td>
@@ -34,6 +34,11 @@
         <td><%= @player.marks[i] %></td>
         <td><%= @player.tackles[i] %></td>
         <td><%= @player.hit_outs[i] %></td>
+        <td>
+          <a
+            class="fa-solid fa-circle-chevron-right"
+          />
+        </td>
       </tr>
     <% end %>
   </tbody>

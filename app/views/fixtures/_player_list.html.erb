@@ -2,16 +2,30 @@
 
   <thead>
     <tr>
-      <th>Player</th>
-      <th>Pts</th>
+      <th class="key-column">Player</th>
+      <th>AF</th>
+      <th>K</th>
+      <th>H</th>
+      <th>D</th>
+      <th>M</th>
+      <th>T</th>
+      <th>HO</th>
+      <th>G.B</th>
     </tr>
   </thead>
 
   <tbody>
     <% players.each do |player| %>
       <tr>
-        <td><%= link_to "#{ player.short_name }", player_path(player.id) %></td>
-        <td><%= player.fantasy_scores[@r] %></td>
+        <td class="key-column"><%= link_to "#{ player.name }", player_path(player.id) %></td>
+        <td class="bold"><%= player.fantasy_scores[@r] %></td>
+        <td><%= player.kicks[@r] %></td>
+        <td><%= player.handballs[@r] %></td>
+        <td><%= player.disposals[@r] %></td>
+        <td><%= player.marks[@r] %></td>
+        <td><%= player.tackles[@r] %></td>
+        <td><%= player.hit_outs[@r] %></td>
+        <td><%= player.goals[@r] %>.<%= player.behinds[@r] %></td>
       </tr>
     <% end %>
   </tbody>

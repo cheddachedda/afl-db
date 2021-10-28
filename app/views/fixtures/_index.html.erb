@@ -2,7 +2,7 @@
 
 <div class="rounds-nav-bar">
   <% @rounds.each do |round| %>
-    <%= link_to round, round_path(round) %>
+    <%= link_to round, round_path(round), :class => 'round-label' %>
   <% end %>
 </div>
 

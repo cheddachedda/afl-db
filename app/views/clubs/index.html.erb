@@ -6,7 +6,7 @@
   <thead>
     <tr>
       <th></th>
-      <th>Club</th>
+      <th class="key-column">Club</th>
       <th>G</th>
       <th>W</th>
       <th>D</th>
@@ -22,7 +22,7 @@
     <% @clubs.each_with_index do |club, i| %>
       <tr>
         <td><%= i + 1 %></td>
-        <td><%= link_to club.abbreviation, club_path(club.id) %></td>
+        <td class="key-column"><%= link_to club.name, club_path(club.id) %></td>
         <td><%= club.games_played %></td>
         <td><%= club.wins %></td>
         <td><%= club.draws %></td>
