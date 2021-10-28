@@ -101,7 +101,7 @@ def scrape_players
       )
       new_player[:expected_dtlive_alias] = "#{ new_player[:first_name][0] } #{ new_player[:last_name]}"
       new_player.save
-      puts "#{ new_player[:first_name][0] } #{ new_player[:last_name]} created"
+      puts "#{ new_player[:first_name] } #{ new_player[:last_name]} created"
     end
   end
 end
@@ -115,7 +115,6 @@ puts "#{ Player.count } players created"
 def scrape_player_stats player
   first_name = player.first_name
   last_name = player.last_name
-  puts "Adding stats for #{ first_name } #{ last_name }"
 
   url = "https://afltables.com/afl/stats/players/#{ first_name[0] }/#{ first_name }_#{ last_name.gsub(' ', '_') }.html"
   unparsed_page = HTTParty.get(url)
