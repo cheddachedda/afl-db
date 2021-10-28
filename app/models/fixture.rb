@@ -50,11 +50,11 @@ class Fixture < ApplicationRecord
   end
 
   def is_regular_season
-    self.round[0] == 'R'
+    self.round_id < 24
   end
 
   def is_finals
-    self.round[0] != 'R'
+    self.round_id > 23
   end
 
   def short_name

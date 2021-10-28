@@ -5,6 +5,6 @@ class ClubsController < ApplicationController
 
   def show
     @club = Club.find params[:id]
-    @players = @club.players.sort_by{ |player| player.average_fantasy_score || 0 }.reverse
+    @players = @club.players
   end
 end
