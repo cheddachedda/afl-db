@@ -65,4 +65,19 @@ class Player < ApplicationRecord
       :percentage_time_on_ground => self.percentage_time_on_ground[i],
     }
   end
+
+  def get_all_round_names
+    Fixture.all.map{ |f| f.round }.uniq
+  end
+
+  def get_all_opponents
+    self.get_all_round_names.map do |r|
+      club_id = self.club_id
+      fixture = self.fixtures.find_by(round_id: r)
+      unless fixture.nil?
+        opp_id = club_id == fixture.home_id ? fixture.away_id : fixture.home_id
+        Club.find(opp_id).abbreviation
+      end
+    end
+  end
 end

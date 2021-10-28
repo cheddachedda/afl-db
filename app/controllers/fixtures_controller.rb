@@ -5,7 +5,7 @@ class FixturesController < ApplicationController
 
   def round
     @rounds = Fixture.all.pluck(:round).uniq
-    @round = params[:round]
+    @round = params[:round_id]
     @fixtures = Fixture.where("round = '#{ @round }'")
   end
 
