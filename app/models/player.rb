@@ -2,11 +2,11 @@ class Player < ApplicationRecord
   belongs_to :club, :optional => true
   has_and_belongs_to_many :fixtures
 
-  def get_stats_by_fixture_id id
-    i = self.fixtures.index{ |f| f.id == id } - 1
+  def get_stats_by_round_id id
+    i = self.fixtures.index{ |f| f.round_id == id } - 1
     stats = {
       :played => !self.percentage_time_on_ground[i].nil?,
-      :fantasy_score => self.fantasy_score[i],
+      :fantasy_scores => self.fantasy_scores[i],
       :kicks => self.kicks[i],
       :marks => self.marks[i],
       :handballs => self.handballs[i],
