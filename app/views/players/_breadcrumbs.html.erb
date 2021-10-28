@@ -1,0 +1,11 @@
+<h3>
+  <%= link_to 'AFL Database', root_path %>
+  /
+  <%= link_to 'Players', players_path %>
+
+  <% if @player.present? %>
+    <%= " / " %>
+    <%= link_to @player.name, player_path(@player.id) %>
+  <% end %>
+
+</h3>

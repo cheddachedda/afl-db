@@ -1,4 +1,6 @@
 <h3>
+  <%= link_to 'AFL Database', root_path %>
+  /
   <%= link_to 'Clubs', clubs_path %>
   <%= " / " if @club.present? %>
   <%= link_to @club.name, club_path(@club.id) if @club.present? %>

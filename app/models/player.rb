@@ -2,6 +2,10 @@ class Player < ApplicationRecord
   belongs_to :club, :optional => true
   has_and_belongs_to_many :fixtures
 
+  def name
+    "#{ self.first_name } #{ self.last_name }"
+  end
+
   def disposals
     scores = []
     (0..27).each do |i|
