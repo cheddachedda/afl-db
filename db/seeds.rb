@@ -94,7 +94,6 @@ def scrape_players
     club = t.css('a').first.text
     t.css('tbody')[0].css('tr').each do |tr|
       new_player = Player.new(
-        :name => tr.children[1].text,
         :first_name => tr.children[1].text.split(', ')[1],
         :last_name => tr.children[1].text.split(', ')[0],
         :club => Club.find_by(afl_tables_alias: club),
@@ -102,7 +101,7 @@ def scrape_players
       )
       new_player[:expected_dtlive_alias] = "#{ new_player[:first_name][0] } #{ new_player[:last_name]}"
       new_player.save
-      puts "#{ new_player[:name] } created"
+      puts "#{ new_player[:first_name][0] } #{ new_player[:last_name]} created"
     end
   end
 end
@@ -114,9 +113,9 @@ puts "#{ Player.count } players created"
 # II. Scrape for all game-by-game stats from afltables.com
 
 def scrape_player_stats player
-  puts "Adding stats for #{ player.name }"
   first_name = player.first_name
   last_name = player.last_name
+  puts "Adding stats for #{ first_name } #{ last_name }"
 
   url = "https://afltables.com/afl/stats/players/#{ first_name[0] }/#{ first_name }_#{ last_name.gsub(' ', '_') }.html"
   unparsed_page = HTTParty.get(url)
@@ -168,7 +167,7 @@ def scrape_player_stats player
     end
 
     # Updates each Player model
-    id = Player.find_by(name: "#{last_name}, #{first_name}").id
+    id = Player.find_by(last_name: last_name, first_name: first_name).id
     player.keys.drop(1).each do |key|
       Player.update id, key => player[key]
     end
@@ -223,7 +222,7 @@ def fantasy_scraper
     end
 
     unless id == nil
-      puts "Updating fantasy info for #{ Player.find(id).name }"
+      puts "Updating fantasy info for #{ Player.find(id).first_name } #{ Player.find(id).last_name }"
       Player.update id, :position => player[:position], :fantasy_scores => player[:fantasy_scores]
       count += 1
     end
@@ -240,7 +239,7 @@ puts "Associating Fixtures and Players"
 association_count = 0
 fixtures_and_players_start_time = Time.new
 Player.all.each do |player|
-  puts "Associating fixtures for #{ player.name }"
+  puts "Associating fixtures for #{ player.first_name } #{ player.last_name }"
   unless player.club.nil?
     player.club.fixtures.each do |fixture|
       player.fixtures << fixture
