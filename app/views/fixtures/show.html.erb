@@ -6,11 +6,11 @@
 
     <table>
       <tr>
-        <td><%= @fixture.clubs[0].name %></td>
-        <td><%= @fixture.home_score %></td>
+        <td class="team-name"><%= @fixture.clubs[0].name %></td>
+        <td class="team-score"><%= @fixture.home_score %></td>
       </tr>
       <tr>
-        <td>
+        <td class="team-record">
           <%= @fixture.home.wins %><%= "-#{ @fixture.home.losses}" %><%= "-#{ @fixture.home.draws }" unless @fixture.home.draws == 0 %>
         </td>
       </tr>
@@ -23,11 +23,11 @@
 
     <table>
       <tr>
-        <td><%= @fixture.clubs[1].name %></td>
-        <td><%= @fixture.away_score %></td>
+        <td class="team-name"><%= @fixture.clubs[1].name %></td>
+        <td class="team-score"><%= @fixture.away_score %></td>
       </tr>
       <tr>
-        <td>
+        <td class="team-record">
           <%= @fixture.away.wins %><%= "-#{ @fixture.away.losses}" %><%= "-#{ @fixture.away.draws }" unless @fixture.away.draws == 0 %>
         </td>
       </tr>

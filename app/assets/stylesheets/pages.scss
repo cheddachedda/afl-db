@@ -7,3 +7,13 @@
 body {
   font-family: 'Cairo';
 }
+
+.nav-container > a {
+  background-color: #0052CC;
+  border-radius: 0.4em;
+  color: #FFFFFF;
+  font-size: 1.2em;
+  margin: 0.2em;
+  padding: 0.2em 1em;
+  text-decoration: none;
+}
