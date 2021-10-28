@@ -3,7 +3,7 @@
 <div class="scoreboard">
   <div class="team-container home">
     <p><%= @fixture.clubs[0].name %></p>
-    <p><%= "nth" %></p>
+    <p><%= @fixture.home.wins %><%= "-#{ @fixture.home.losses}" %><%= "-#{ @fixture.home.draws }" unless @fixture.home.draws == 0 %></p>
   </div>
 
   <div class="score-container">
@@ -12,7 +12,7 @@
 
   <div class="team-container away">
     <p><%= @fixture.clubs[1].name %></p>
-    <p><%= "nth" %></p>
+    <p><%= @fixture.away.wins %><%= "-#{ @fixture.away.losses}" %><%= "-#{ @fixture.away.draws }" unless @fixture.away.draws == 0 %></p>
   </div>
 </div>
 
