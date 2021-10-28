@@ -70,7 +70,7 @@ def scrape_fixtures
       :away_score => data[5].text.split(' - ')[1].to_i
     )
     new_fixture.clubs << Club.find_by(fixtures_alias: data[3].text) << Club.find_by(fixtures_alias: data[4].text)
-    puts "#{ round } #{ new_fixture[:home_id] } v #{ new_fixture[:away_id] } created"
+    puts "#{ round_id } #{ new_fixture[:home_id] } v #{ new_fixture[:away_id] } created"
   end
 end
 
@@ -126,7 +126,7 @@ def scrape_player_stats player
 
     rows = parsed_page.css('.sortable').last.css('tbody')[0].css('tr')
 
-    categories = [ :kicks, :marks, :handballs, :disposals, :goals, :behinds, :hit_outs, :tackles, :free_kicks_for, :free_kicks_against, :percentage_time_on_ground ]
+    categories = [ :kicks, :marks, :handballs, :goals, :behinds, :hit_outs, :tackles, :free_kicks_for, :free_kicks_against, :percentage_time_on_ground ]
 
     # Initialise player hash
     player = {}
@@ -156,7 +156,6 @@ def scrape_player_stats player
       player[:kicks][round - 1] = data[5].text.to_i
       player[:marks][round - 1] = data[6].text.to_i
       player[:handballs][round - 1] = data[7].text.to_i
-      player[:disposals][round - 1] = data[8].text.to_i
       player[:goals][round - 1] = data[9].text.to_i
       player[:behinds][round - 1] = data[10].text.to_i
       player[:hit_outs][round - 1] = data[11].text.to_i
@@ -203,10 +202,6 @@ def fantasy_scraper
     player = {
       name: rows[i].children[1].text,
       position: rows[i].children[2].text.upcase.split(','),
-      fantasy_scores: (14..40).map { |col|
-        rows[i].children[col].text.empty? ?
-        nil : rows[i].children[col].text.to_i
-      }
     }
 
     players << player
@@ -223,7 +218,7 @@ def fantasy_scraper
 
     unless id == nil
       puts "Updating fantasy info for #{ Player.find(id).first_name } #{ Player.find(id).last_name }"
-      Player.update id, :position => player[:position], :fantasy_scores => player[:fantasy_scores]
+      Player.update id, :position => player[:position]
       count += 1
     end
   end

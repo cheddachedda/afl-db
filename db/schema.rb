@@ -18,8 +18,6 @@ ActiveRecord::Schema.define(version: 2021_10_27_054929) do
   create_table "clubs", force: :cascade do |t|
     t.string "name"
     t.string "abbreviation"
-    t.text "logo"
-    t.string "website"
     t.string "fixtures_alias"
     t.string "afl_tables_alias"
   end
@@ -31,7 +29,6 @@ ActiveRecord::Schema.define(version: 2021_10_27_054929) do
 
   create_table "fixtures", force: :cascade do |t|
     t.integer "round_id"
-    t.string "round"
     t.datetime "datetime"
     t.string "venue"
     t.integer "home_id"
@@ -46,17 +43,14 @@ ActiveRecord::Schema.define(version: 2021_10_27_054929) do
   end
 
   create_table "players", force: :cascade do |t|
-    t.string "name"
     t.string "first_name"
     t.string "last_name"
     t.integer "club_id"
     t.integer "jersey"
     t.string "position", default: [], array: true
-    t.integer "fantasy_scores", default: [], array: true
     t.integer "kicks", default: [], array: true
     t.integer "marks", default: [], array: true
     t.integer "handballs", default: [], array: true
-    t.integer "disposals", default: [], array: true
     t.integer "goals", default: [], array: true
     t.integer "behinds", default: [], array: true
     t.integer "hit_outs", default: [], array: true
