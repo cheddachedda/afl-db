@@ -44,8 +44,8 @@ def scrape_fixtures
     data = row.css('td')
 
     # Shorten round name
-    round
-    round_id
+    round = nil
+    round_id = nil
     case data[0].text
     when 'Finals W1'
       round = 'FW1'
@@ -215,7 +215,7 @@ def fantasy_scraper
     player = {
       name: rows[i].children[1].text,
       position: rows[i].children[2].text.upcase.split(','),
-      fantasy_scores: (14..36).map { |col|
+      fantasy_scores: (14..40).map { |col|
         rows[i].children[col].text.empty? ?
         nil : rows[i].children[col].text.to_i
       }
