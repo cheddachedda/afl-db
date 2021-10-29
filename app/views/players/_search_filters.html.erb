@@ -1,9 +1,9 @@
 <%= form_with url: players_path, method: :get, local: true do |f| %>
-  <%= f.label :name, "Search by name:" %>
-  <%= f.text_field :name %>
+  <%= f.label :query, "Search by name:" %>
+  <%= f.text_field :query %>
 
-  <%= f.label :pos, "Club:" %>
-  <%= f.select :pos, Club.pluck(:abbreviation), :include_blank => true %>
+  <%= f.label :club, "Club:" %>
+  <%= f.select :club, Club.pluck(:abbreviation), :include_blank => true %>
 
   <%= f.label :pos, "Position:" %>
   <%= f.select :pos, [ 'DEF', 'MID', 'RUC', 'FWD' ], :include_blank => true %>
