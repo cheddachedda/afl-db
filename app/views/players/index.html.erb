@@ -7,18 +7,29 @@
 <table>
   <thead>
     <tr>
-      <th>Player</th>
+      <th class="key-column">Player</th>
+      <th>Club</th>
+      <th>Pos</th>
+      <th>Avg.</th>
+      <% @rounds.last(9).each do |round| %>
+        <th><%= round %></th>
+      <% end %>
     </tr>
   </thead>
 
   <tbody>
     <% @players.take(50).each do |player| %>
       <tr>
-        <td>
+        <td class="key-column">
           <% name = "#{ player.first_name } #{ player.last_name }" %>
           <%= link_to name, player_path(player.id) %>
         </td>
-        <td><%= player.club.abbreviation %></td>
+        <td><%= link_to player.club.abbreviation, club_path(player.club.id) %></td>
+        <td><%= player.position.join(' / ') %></td>
+        <td><%= player.average_fantasy_score %></td>
+        <% player.fantasy_scores.last(10).each do |score| %>
+          <td><%= score %></td>
+        <% end %>
       </tr>
     <% end %>
   </tbody>
