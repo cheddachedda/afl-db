@@ -84,4 +84,16 @@ class Player < ApplicationRecord
       end
     end
   end
+
+  def filter_by_query query, players = Player.all
+    players.filter{ |p| p.name.downcase.include? query.downcase }
+  end
+
+  def filter_by_club club_abbr, players = Player.all
+    players.filter{ |p| p.club.abbreviation == club_abbr }
+  end
+
+  def filter_by_pos pos, players = Player.all
+    players.filter{ |p| p.position.include? pos }
+  end
 end

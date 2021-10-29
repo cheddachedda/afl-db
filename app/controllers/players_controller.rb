@@ -1,6 +1,27 @@
 class PlayersController < ApplicationController
   def index
-    @players = Player.all.sort_by{ |p| p.average_fantasy_score || 0 }.reverse
+    all_players = Player.all.sort_by{ |p| p.average_fantasy_score || 0 }.reverse
+
+    with_query_filter = all_players.filter{ |p| p.name.downcase.include? params[:query].downcase }
+
+    with_club_fitler = with_query_filter.filter do |p|
+      if params[:club].empty?
+        with_query_filter
+      else
+        p.club.abbreviation == params[:club]
+      end
+    end
+
+    with_pos_fitler = with_club_fitler.filter do |p|
+      if params[:pos].empty?
+        with_club_fitler
+      else
+        p.position.include? params[:pos]
+      end
+    end
+
+    @players = with_pos_fitler
+
     @rounds = Fixture.all.map{ |f| f.round }.uniq
   end
 
