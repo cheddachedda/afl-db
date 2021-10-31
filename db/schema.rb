@@ -18,8 +18,6 @@ ActiveRecord::Schema.define(version: 2021_10_27_054929) do
   create_table "clubs", force: :cascade do |t|
     t.string "name"
     t.string "abbreviation"
-    t.string "fixtures_alias"
-    t.string "afl_tables_alias"
   end
 
   create_table "clubs_fixtures", id: false, force: :cascade do |t|
@@ -32,8 +30,8 @@ ActiveRecord::Schema.define(version: 2021_10_27_054929) do
     t.datetime "datetime"
     t.string "venue"
     t.integer "home_id"
-    t.integer "away_id"
     t.integer "home_score"
+    t.integer "away_id"
     t.integer "away_score"
   end
 
@@ -58,7 +56,6 @@ ActiveRecord::Schema.define(version: 2021_10_27_054929) do
     t.integer "free_kicks_for", default: [], array: true
     t.integer "free_kicks_against", default: [], array: true
     t.integer "percentage_time_on_ground", default: [], array: true
-    t.string "expected_dtlive_alias"
   end
 
 end
