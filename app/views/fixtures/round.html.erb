@@ -1,2 +1,10 @@
 <%= render 'breadcrumbs' %>
-<%= render 'index' %>
+
+<%= render 'fixtures_nav' %>
+
+<%= render 'pages/db_schema', :locals => { :model => Fixture } %>
+
+<h3>Fixtures:</h3>
+<% @fixtures.each do |fixture| %>
+  <%= render 'fixture_card', :locals => { :fixture => fixture } %>
+<% end %>
