@@ -75,7 +75,7 @@ scrape_fantasy_positions.each do |scraped_player|
 
   if player
     Player.update player.id, :position => scraped_player[:position]
-    puts "Added #{ scraped_player[:position] } to #{ scraped_player[:name] }"
+    puts "Added #{ player.position } to #{ player.name }"
     @scrape_count += 1
   else
     @failed_players << "#{ scraped_player[:name] }"
