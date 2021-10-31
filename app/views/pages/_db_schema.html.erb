@@ -1,0 +1,24 @@
+<h3>Database Schema:</h3>
+<table class="db-schema">
+
+  <tr>
+    <% locals[:model].column_names.each do |col| %>
+      <th><%= col %></th>
+    <% end %>
+  </tr>
+
+  <%# Selects models by id %>
+  <% models = params[:id] ? locals[:model].where(id: params[:id]) : locals[:model].all %>
+
+  <%# Selects models by params[:round] in Fixtures#round %>
+  <% models = locals[:model].where(round: params[:round]) if params[:round] && params[:id].nil? %>
+
+  <% models.each do |model| %>
+    <tr>
+      <% locals[:model].column_names.each do |col| %>
+        <td><%= model[col] %></td>
+      <% end %>
+    </tr>
+  <% end %>
+
+</table>
