@@ -1,6 +1,5 @@
 require 'httparty'
 require 'nokogiri'
-require 'pry'
 
 # key = club name as it appears in fixturedownload.com
 # value = :name as per our Club model

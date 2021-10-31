@@ -1,4 +1,3 @@
-require 'pry'
 puts "Associating Fixtures and Players"
 @associated_fixtures = 0
 @associated_players = 0
