@@ -9,9 +9,11 @@
 
   <thead>
     <tr>
+      <!-- Renders all column names -->
       <% locals[:model].column_names.each do |col| %>
         <th><%= col %></th>
       <% end %>
+      <!-- Renders all association types -->
       <% locals[:model].reflect_on_all_associations.each do |refl| %>
         <th><%= refl.macro %></th>
       <% end %>
@@ -21,9 +23,11 @@
   <tbody>
     <% models.each do |model| %>
       <tr>
+        <!-- Renders model's columns -->
         <% locals[:model].column_names.each do |col| %>
           <td><%= model[col] %></td>
         <% end %>
+        <!-- Renders model's associations -->
         <% locals[:model].reflect_on_all_associations.each do |refl| %>
           <td><%= model.send(refl.name).count %> <%= refl.name %></td>
         <% end %>
