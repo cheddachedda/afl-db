@@ -2,8 +2,6 @@ require 'httparty'
 require 'nokogiri'
 require 'pry'
 
-Fixture.destroy_all
-
 # key = club name as it appears in fixturedownload.com
 # value = :name as per our Club model
 @fixtures_aliases = {

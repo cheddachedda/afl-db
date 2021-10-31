@@ -1,5 +1,3 @@
-Club.destroy_all
-
 clubs = [
   { :name => 'Adelaide Crows', :abbreviation => 'ADE', :fixtures_alias => 'Adelaide Crows', :afl_tables_alias => 'Adelaide' },
   { :name => 'Brisbane Lions', :abbreviation => 'BRL', :fixtures_alias => 'Brisbane Lions', :afl_tables_alias => 'Brisbane Lions' },
