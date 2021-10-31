@@ -7,7 +7,7 @@ class Player < ApplicationRecord
   end
 
   def short_name
-    "#{ self.first_name[0] }. #{ self.last_name }"
+    "#{ self.first_name[0] } #{ self.last_name }"
   end
 
   def disposals
