@@ -2,6 +2,10 @@ class Fixture < ApplicationRecord
   has_and_belongs_to_many :clubs
   has_and_belongs_to_many :players
 
+  def matchup
+    "#{ Club.find(home_id).abbreviation } v #{ Club.find(away_id).abbreviation }"
+  end
+
   def round
     case self.round_id
     when 24
