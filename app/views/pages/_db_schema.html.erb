@@ -1,7 +1,7 @@
-<%# Selects models by id %>
+<!-- Selects models by id -->
 <% models = params[:id] ? locals[:model].where(id: params[:id]) : locals[:model].all %>
 
-<%# Selects models by params[:round] in Fixtures#round %>
+<!-- Selects models by params[:round] in Fixtures#round -->
 <% models = locals[:model].where(round_id: params[:round]) if params[:round_id] && params[:id].nil? %>
 
 <h3>Database Schema:</h3>
