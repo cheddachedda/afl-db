@@ -1,6 +1,6 @@
 class FixturesController < ApplicationController
   def index
-    redirect_to round_path(Fixture.last.round)
+    @fixtures = Fixture.all
   end
 
   def round

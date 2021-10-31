@@ -1,0 +1,9 @@
+<div class="fixtures-nav">
+  <% get_all_rounds.each do |round| %>
+    <a
+      href="<%= round_path(round) %>"
+      class="<%= "selected" if round == params[:round] %>">
+      <%= round %>
+    </a>
+  <% end %>
+</div>
