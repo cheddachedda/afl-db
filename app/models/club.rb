@@ -62,6 +62,14 @@ class Club < ApplicationRecord
     self.home_losses + self.away_losses
   end
 
+  def record
+    "#{ self.wins }-#{ self.losses }#{ "-#{self.draws}" if self.draws > 0 }"
+  end
+
+  def games_played
+    self.wins + self.draws + self.losses
+  end
+
   def points_for
     self.home_points_for + self.away_points_for
   end
@@ -70,15 +78,31 @@ class Club < ApplicationRecord
     self.home_points_against + self.away_points_against
   end
 
-  def games_played
-    self.wins + self.draws + self.losses
-  end
-
   def percentage
     (self.points_for.to_f / self.points_against * 100).round 2
   end
 
   def league_points
     self.wins * 4 + self.draws * 2
+  end
+
+  def rank
+    # TODO: figure out how to import ClubsHelper...sort_for_ladder
+    ladder = Club.all.sort_by{|t| [ t.league_points, t.percentage, t.points_for ]}.reverse
+    ladder.index(self) + 1
+  end
+
+  def result fixture
+    if fixture.win? self
+      'W'
+    elsif fixture.loss? self
+      'L'
+    elsif fixture.draw?
+      'D'
+    end
+  end
+
+  def results
+    self.fixtures.map{ |f| self.result f }
   end
 end

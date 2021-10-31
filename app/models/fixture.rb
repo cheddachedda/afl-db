@@ -2,10 +2,6 @@ class Fixture < ApplicationRecord
   has_and_belongs_to_many :clubs
   has_and_belongs_to_many :players
 
-  def matchup
-    "#{ Club.find(home_id).abbreviation } v #{ Club.find(away_id).abbreviation }"
-  end
-
   def round
     case self.round_id
     when 24
@@ -29,28 +25,24 @@ class Fixture < ApplicationRecord
     Club.find away_id
   end
 
-  def home_win
-    self.home_score > self.away_score
+  def matchup
+    "#{ self.home.abbreviation } v #{ self.away.abbreviation }"
   end
 
-  def home_draw
-    self.home_score == self.away_score
+  def winner
+    if self.home_score > self.away_score
+      Club.find self.home_id
+    elsif self.away_score > self.home_score
+      Club.find self.away_id
+    end
   end
 
-  def home_loss
-    self.home_score < self.away_score
-  end
-
-  def away_win
-    self.away_score > self.home_score
-  end
-
-  def away_draw
-    self.away_score == self.home_score
-  end
-
-  def away_loss
-    self.away_score < self.home_score
+  def loser
+    if self.home_score < self.away_score
+      Club.find self.home_id
+    elsif self.away_score < self.home_score
+      Club.find self.away_id
+    end
   end
 
   def is_regular_season
@@ -66,10 +58,26 @@ class Fixture < ApplicationRecord
   end
 
   def home_players
-    self.players.filter{ |p| p.club_id == self.home_id && !p.fantasy_scores[self.round_id - 1].nil? }.sort_by{|p| p.fantasy_scores[self.round_id - 1]}.reverse
+    self.players
+        .filter{ |p| p.club_id == self.home_id && p.fantasy_scores[self.round_id - 1] }
+        .sort_by{|p| p.fantasy_scores[self.round_id - 1]}.reverse
   end
 
   def away_players
-    self.players.filter{ |p| p.club_id == self.away_id && !p.fantasy_scores[self.round_id - 1].nil? }.sort_by{|p| p.fantasy_scores[self.round_id - 1]}.reverse
+    self.players
+        .filter{ |p| p.club_id == self.away_id && p.fantasy_scores[self.round_id - 1] }
+        .sort_by{|p| p.fantasy_scores[self.round_id - 1]}.reverse
+  end
+
+  def draw?
+    self.home_score == self.away_score
+  end
+
+  def win? team
+    team == self.winner
+  end
+
+  def loss? team
+    team == self.loser
   end
 end
