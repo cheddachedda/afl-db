@@ -1,0 +1,43 @@
+<% fixture = Fixture.find locals[:fixture].id %>
+<% home = Club.find(fixture.home_id) %>
+<% away = Club.find(fixture.away_id) %>
+
+<table class="fixture-card" id="fixture-<%= fixture.id %>">
+
+  <thead>
+    <tr>
+      <th colspan="4">
+        <%= fixture.date %> • <%= fixture.time %> • <%= fixture.venue %>
+      </th>
+    </tr>
+  </thead>
+
+  <tbody>
+
+    <tr>
+      <td><%= link_to home.name, club_path(home.id) %></td>
+      <td><%= home.record %></td>
+      <td><%= home.rank.ordinalize %></td>
+      <td><%= fixture.home_score %></td>
+    </tr>
+
+    <tr>
+      <td><%= link_to away.name, club_path(away.id) %></td>
+      <td><%= away.record %></td>
+      <td><%= away.rank.ordinalize %></td>
+      <td><%= fixture.away_score %></td>
+    </tr>
+
+  </tbody>
+
+  <% unless params[:round] && params[:id] %>
+
+    <tfoot>
+      <tr>
+        <td colspan="4"><%= link_to '>> View Fixture' ,fixture_path(fixture.round_id, fixture.id) %></td>
+      </tr>
+    </tfoot>
+
+  <% end %>
+
+</table>
