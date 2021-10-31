@@ -7,24 +7,28 @@
 <h3>Database Schema:</h3>
 <table class="db-schema">
 
-  <tr>
-    <% locals[:model].column_names.each do |col| %>
-      <th><%= col %></th>
-    <% end %>
-    <% locals[:model].reflect_on_all_associations.each do |refl| %>
-      <th><%= refl.macro %></th>
-    <% end %>
-  </tr>
-
-  <% models.each do |model| %>
+  <thead>
     <tr>
       <% locals[:model].column_names.each do |col| %>
-        <td><%= model[col] %></td>
+        <th><%= col %></th>
       <% end %>
       <% locals[:model].reflect_on_all_associations.each do |refl| %>
-        <td><%= model.send(refl.name).count %> <%= refl.name %></td>
+        <th><%= refl.macro %></th>
       <% end %>
     </tr>
-  <% end %>
+  </thead>
+
+  <tbody>
+    <% models.each do |model| %>
+      <tr>
+        <% locals[:model].column_names.each do |col| %>
+          <td><%= model[col] %></td>
+        <% end %>
+        <% locals[:model].reflect_on_all_associations.each do |refl| %>
+          <td><%= model.send(refl.name).count %> <%= refl.name %></td>
+        <% end %>
+      </tr>
+    <% end %>
+  </tbody>
 
 </table>
