@@ -15,23 +15,9 @@ class CreatePlayers < ActiveRecord::Migration[6.1]
       t.integer :behinds, :array => true, :default => []
       t.integer :hit_outs, :array => true, :default => []
       t.integer :tackles, :array => true, :default => []
-      # t.integer :rebound_50s, :array => true, :default => []
-      # t.integer :inside_50s, :array => true, :default => []
-      # t.integer :clearances, :array => true, :default => []
-      # t.integer :clangers, :array => true, :default => []
       t.integer :free_kicks_for, :array => true, :default => []
       t.integer :free_kicks_against, :array => true, :default => []
-      # t.integer :brownlow_votes, :array => true, :default => []
-      # t.integer :contested_possessions, :array => true, :default => []
-      # t.integer :uncontested_possessions, :array => true, :default => []
-      # t.integer :contested_marks, :array => true, :default => []
-      # t.integer :marks_inside_50, :array => true, :default => []
-      # t.integer :one_percenters, :array => true, :default => []
-      # t.integer :bounces, :array => true, :default => []
-      # t.integer :goal_assists, :array => true, :default => []
       t.integer :percentage_time_on_ground, :array => true, :default => []
-
-      t.string :expected_dtlive_alias
     end
   end
 end
