@@ -1,3 +1,9 @@
+<%# Selects models by id %>
+<% models = params[:id] ? locals[:model].where(id: params[:id]) : locals[:model].all %>
+
+<%# Selects models by params[:round] in Fixtures#round %>
+<% models = locals[:model].where(round_id: params[:round]) if params[:round_id] && params[:id].nil? %>
+
 <h3>Database Schema:</h3>
 <table class="db-schema">
 
@@ -5,18 +11,18 @@
     <% locals[:model].column_names.each do |col| %>
       <th><%= col %></th>
     <% end %>
+    <% locals[:model].reflect_on_all_associations.each do |refl| %>
+      <th><%= refl.macro %></th>
+    <% end %>
   </tr>
-
-  <%# Selects models by id %>
-  <% models = params[:id] ? locals[:model].where(id: params[:id]) : locals[:model].all %>
-
-  <%# Selects models by params[:round] in Fixtures#round %>
-  <% models = locals[:model].where(round_id: params[:round]) if params[:round_id] && params[:id].nil? %>
 
   <% models.each do |model| %>
     <tr>
       <% locals[:model].column_names.each do |col| %>
         <td><%= model[col] %></td>
+      <% end %>
+      <% locals[:model].reflect_on_all_associations.each do |refl| %>
+        <td><%= model.send(refl.name).count %> <%= refl.name %></td>
       <% end %>
     </tr>
   <% end %>
