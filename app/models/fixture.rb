@@ -17,6 +17,14 @@ class Fixture < ApplicationRecord
     end
   end
 
+  def date
+    self.datetime.strftime('%a %d %b')
+  end
+
+  def time
+    self.datetime.strftime('%l:%M%P')
+  end
+
   def home
     Club.find home_id
   end
