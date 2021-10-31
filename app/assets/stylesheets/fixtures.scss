@@ -2,25 +2,34 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: https://sass-lang.com/
 
-.scoreboard {
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans&family=Noto+Sans+Mono&display=swap');
+
+.fixtures-nav {
   display: flex;
+  justify-content: space-around;
+  overflow: auto;
 }
 
-.team-container {
-  flex-grow: 4.5;
-}
-
-.team-name {
-  text-align: left;
-}
-
-.team-score {
+.fixtures-nav > a {
+  background-color: #DADADA;
+  border: none;
+  border-radius: 0.2rem;
+  color: #242430;
+  cursor: pointer;
   font-weight: bold;
+  padding: 0.5rem 1.5rem;
+  margin: 0 0.3rem;
+  text-align: center;
 }
 
-.team-record {
-  text-align: left;
+.fixtures-nav > .selected {
+  background-color: #FFEF6B;
 }
 
-.score-container {
+.fixtures-nav > a:hover, .fixtures-nav > a:active {
+  background-color: #FE8BB5;
+}
+
+.fixture-card {
+  margin: 1rem;
 }
