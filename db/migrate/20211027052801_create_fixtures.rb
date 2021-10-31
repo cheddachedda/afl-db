@@ -5,8 +5,8 @@ class CreateFixtures < ActiveRecord::Migration[6.1]
       t.datetime :datetime
       t.string :venue
       t.integer :home_id
-      t.integer :away_id
       t.integer :home_score
+      t.integer :away_id
       t.integer :away_score
     end
   end
