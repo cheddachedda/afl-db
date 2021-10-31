@@ -1,18 +1,22 @@
 <h1>AFL Database</h1>
 <p>For the 2021 AFL season</p>
 
-<table>
+<table class="model-schema">
 
-  <tr>
-    <th>Model</th>
-    <th>Path</th>
-  </tr>
-
-  <% get_all_models.each do |model| %>
+  <thead>
     <tr>
-      <td><%= model %></td>
-      <td><%= link_to "/#{model.downcase}s", "/#{model.downcase}s" %></td>
+      <th>Model</th>
+      <th>Path</th>
     </tr>
-  <% end %>
+  </thead>
+
+  <tbody>
+    <% get_all_models.each do |model| %>
+      <tr>
+        <td><%= model %></td>
+        <td><%= link_to "/#{model.downcase}s", "/#{model.downcase}s" %></td>
+      </tr>
+    <% end %>
+  </tbody>
 
 </table>
