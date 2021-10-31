@@ -4,7 +4,7 @@ require 'pry'
 
 # key = club name as it appears in fixturedownload.com
 # value = :name as per our Club model
-@fixtures_aliases = {
+@fixturedownload_aliases = {
   :'Adelaide Crows' => 'Adelaide Crows',
   :'Brisbane Lions' => 'Brisbane Lions',
   :'Carlton' => 'Carlton Blues',
@@ -57,9 +57,9 @@ def scrape_fixtures
         "+10:00" : "+11:00"
       ),
       :venue => data[2].text,
-      :home_id => Club.find_by( name: @fixtures_aliases[data[3].text.to_sym] ).id,
+      :home_id => Club.find_by( name: @fixturedownload_aliases[data[3].text.to_sym] ).id,
       :home_score => data[5].text.split(' - ')[0].to_i,
-      :away_id => Club.find_by( name: @fixtures_aliases[data[4].text.to_sym] ).id,
+      :away_id => Club.find_by( name: @fixturedownload_aliases[data[4].text.to_sym] ).id,
       :away_score => data[5].text.split(' - ')[1].to_i
     )
 

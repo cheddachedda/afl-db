@@ -4,7 +4,7 @@ require 'pry'
 
 # key = club name as it appears in afltables.com
 # value = :name as per our Club model
-@afl_tables_aliases = {
+@afltables_aliases = {
   :'Adelaide' => 'Adelaide Crows',
   :'Brisbane Lions' => 'Brisbane Lions',
   :'Carlton' => 'Carlton Blues',
@@ -35,7 +35,7 @@ def scrape_players
     table.css('tbody')[0].css('tr').each do |tr|
 
       # Converts an afltables.com club name to its matching Club.name
-      parsed_club_name = @afl_tables_aliases[table.css('a').first.text.to_sym]
+      parsed_club_name = @afltables_aliases[table.css('a').first.text.to_sym]
 
       # Creates model
       new_player = Player.create(
