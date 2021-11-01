@@ -41,21 +41,10 @@ ActiveRecord::Schema.define(version: 2021_10_27_054929) do
   end
 
   create_table "players", force: :cascade do |t|
-    t.string "first_name"
-    t.string "last_name"
+    t.string "name"
     t.integer "club_id"
-    t.integer "jersey"
     t.string "position", default: [], array: true
-    t.integer "kicks", default: [], array: true
-    t.integer "marks", default: [], array: true
-    t.integer "handballs", default: [], array: true
-    t.integer "goals", default: [], array: true
-    t.integer "behinds", default: [], array: true
-    t.integer "hit_outs", default: [], array: true
-    t.integer "tackles", default: [], array: true
-    t.integer "free_kicks_for", default: [], array: true
-    t.integer "free_kicks_against", default: [], array: true
-    t.integer "percentage_time_on_ground", default: [], array: true
+    t.integer "fantasy_scores", default: [], array: true
   end
 
 end

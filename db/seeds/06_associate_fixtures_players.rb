@@ -3,7 +3,7 @@ puts "Associating Fixtures and Players"
 @associated_players = 0
 
 Player.all.each do |player|
-  player.percentage_time_on_ground.each_with_index do |value, index|
+  player.fantasy_scores.each_with_index do |value, index|
     unless value.nil?
       fixture = player.club.fixtures.find_by(round_id: index + 1)
       unless fixture.nil?
