@@ -1,6 +1,6 @@
 <%= render 'breadcrumbs' %>
 
-<h1><%= @player.first_name %> <%= @player.last_name %></h1>
+<h1><%= @player.name %></h1>
 <p><%= link_to @player.club.name, club_path(@player.club.id) %> | <%= @player.position.join(' / ') %></p>
 
 <h3>Game Logs</h3>
@@ -11,34 +11,20 @@
       <th>Rd</th>
       <th>Opp</th>
       <th>AF</th>
-      <th>G.B</th>
-      <th>D</th>
-      <th>K</th>
-      <th>H</th>
-      <th>M</th>
-      <th>T</th>
-      <th>HO</th>
     </tr>
   </thead>
 
   <tbody>
     <% (0..26).each do |i| %>
       <tr>
-        <td><%= @player.get_all_round_names[i] %></td>
+        <td><%= Fixture.pluck(:round_id).uniq[i] %></td>
         <td><%= @player.get_all_opponents[i] %></td>
         <td class="bold"><%= @player.fantasy_scores[i] %></td>
-        <td><%= @player.goals[i] %><%= "." if @player.percentage_time_on_ground[i] %><%= @player.behinds[i] %></td>
-        <td><%= @player.disposals[i] %></td>
-        <td><%= @player.kicks[i] %></td>
-        <td><%= @player.handballs[i] %></td>
-        <td><%= @player.marks[i] %></td>
-        <td><%= @player.tackles[i] %></td>
-        <td><%= @player.hit_outs[i] %></td>
-        <td>
+        <!-- <td>
           <a
             class="fa-solid fa-circle-chevron-right"
           />
-        </td>
+        </td> -->
       </tr>
     <% end %>
   </tbody>

@@ -61,4 +61,10 @@ class Club < ApplicationRecord
   def results
     self.fixtures.map{ |f| self.result f }
   end
+
+  def get_all_opponents
+    home = self.fixtures.pluck(:home_id)
+    away = self.fixtures.pluck(:away_id)
+    home
+  end
 end

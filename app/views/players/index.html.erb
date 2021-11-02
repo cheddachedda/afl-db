@@ -11,7 +11,7 @@
       <th>Club</th>
       <th>Pos</th>
       <th>Avg.</th>
-      <% @rounds.last(9).each do |round| %>
+      <% @rounds.last(10).each do |round| %>
         <th><%= round %></th>
       <% end %>
     </tr>
@@ -21,7 +21,7 @@
     <% @players.take(100).each do |player| %>
       <tr>
         <td class="key-column">
-          <% name = "#{ player.first_name } #{ player.last_name }" %>
+          <% name = "#{ player.name }" %>
           <%= link_to name, player_path(player.id) %>
         </td>
         <td><%= link_to player.club.abbreviation, club_path(player.club.id) %></td>
