@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_10_27_054929) do
+ActiveRecord::Schema.define(version: 2021_10_27_054918) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -33,11 +33,6 @@ ActiveRecord::Schema.define(version: 2021_10_27_054929) do
     t.integer "home_score"
     t.integer "away_id"
     t.integer "away_score"
-  end
-
-  create_table "fixtures_players", id: false, force: :cascade do |t|
-    t.integer "fixture_id"
-    t.integer "player_id"
   end
 
   create_table "players", force: :cascade do |t|
