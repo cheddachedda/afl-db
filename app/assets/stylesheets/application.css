@@ -14,34 +14,43 @@
  *= require_self
  */
 
- @import url('https://fonts.googleapis.com/css2?family=Noto+Sans&family=Noto+Sans+Mono&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans&family=Noto+Sans+Mono&display=swap');
 
-  body {
-    background-color: #242430;
-    box-sizing: border-box;
-    color: #DADADA;
-    font-family: 'Noto Sans', sans-serif;
-    margin: 0 auto;
-  }
+body {
+  background-color: #293141;
+  box-sizing: border-box;
+  color: #A3BBD3;
+  font-family: 'Noto Sans', sans-serif;
+  margin: 0 auto;
+}
 
-  .container {
-    margin: 0 auto;
-    padding: 1rem;
-    max-width: 960px;
-  }
+.container {
+  margin: 2rem 4rem;
+}
 
-  a {
-    color: #FF7A64;
-    text-decoration: none;
-  }
+h1, h2, h3 {
+  color: #FFFFFF;
+}
 
-  th, td {
-    border: 0.1rem solid #4E6280;
-    padding: 0.2rem 0.4rem;
-    text-align: left;
-  }
+a {
+  color: #07CDB8;
+  text-decoration: none;
+}
 
-  .db-schema {
-    font-family: 'Noto Sans Mono', monospace;
-    font-size: 0.8rem;
-  }
+
+th, td {
+  border: 0.1rem solid #4E5A6E;
+  border-radius: 0.2rem;
+  padding: 0.2rem 0.4rem;
+  text-align: left;
+}
+
+th {
+  color: #FFFFFF;
+  font-weight: lighter;
+}
+
+.db-schema {
+  font-family: 'Noto Sans Mono', monospace;
+  font-size: 0.8rem;
+}
