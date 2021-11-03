@@ -11,7 +11,6 @@
     <th>Score</th>
     <th>Away</th>
     <th>Venue</th>
-    <th></th>
   </tr>
 
   <% @club.fixtures.each do |fixture| %>
@@ -36,7 +35,6 @@
 <table>
 
   <tr>
-    <th>#</th>
     <th>Player</th>
     <th>Position</th>
     <th>Games</th>
@@ -45,8 +43,7 @@
 
   <% @players.each do |player| %>
     <tr>
-      <td><%= player.jersey %></td>
-      <td><%= player.first_name %> <%= player.last_name %></td>
+      <td><%= player.name %></td>
       <td><%= player.position.join(' / ') %></td>
       <td><%= player.games_played %></td>
       <td><%= player.average_fantasy_score %></td>

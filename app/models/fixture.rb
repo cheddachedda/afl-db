@@ -1,6 +1,5 @@
 class Fixture < ApplicationRecord
   has_and_belongs_to_many :clubs
-  has_and_belongs_to_many :players
 
   def round
     case self.round_id
@@ -66,15 +65,15 @@ class Fixture < ApplicationRecord
   end
 
   def home_players
-    self.players
-        .filter{ |p| p.club_id == self.home_id && p.fantasy_scores[self.round_id - 1] }
-        .sort_by{|p| p.fantasy_scores[self.round_id - 1]}.reverse
+    self.home.players
+             .filter{ |p| p.club_id == self.home_id && p.fantasy_scores[self.round_id - 1] }
+             .sort_by{|p| p.fantasy_scores[self.round_id - 1]}.reverse
   end
 
   def away_players
-    self.players
-        .filter{ |p| p.club_id == self.away_id && p.fantasy_scores[self.round_id - 1] }
-        .sort_by{|p| p.fantasy_scores[self.round_id - 1]}.reverse
+    self.away.players
+             .filter{ |p| p.club_id == self.away_id && p.fantasy_scores[self.round_id - 1] }
+             .sort_by{|p| p.fantasy_scores[self.round_id - 1]}.reverse
   end
 
   def draw?
