@@ -2,7 +2,7 @@
   <% get_all_rounds.each do |round| %>
     <a
       href="<%= round_path(round) %>"
-      class="<%= "selected" if round == params[:round] %>">
+      class="<%= "selected" if round == params[:round].to_i %>">
       <%= round %>
     </a>
   <% end %>
