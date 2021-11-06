@@ -6,46 +6,50 @@
   font-family: 'Noto Sans Mono', monospace;
 }
 
+[class^=score] {
+  color: #191C28;
+}
+
 .score-elite {
-  backgroundColor: #FFD700;
+  background-color: #FFD700;
 }
 
 .score-high {
-  backgroundColor: #DB5E5E;
+  background-color: #DB5E5E;
 }
 
 .score-good {
-  backgroundColor: #EC836B;
+  background-color: #EC836B;
 }
 
 .score-average {
-  backgroundColor: #9E83EE;
+  background-color: #9E83EE;
 }
 
 .score-low {
-  backgroundColor: #9ECC9F;
+  background-color: #9ECC9F;
 }
 
 .score-poor {
-  backgroundColor: #99CDFE;
+  background-color: #99CDFE;
 }
 
 .value-elite {
-  backgroundColor: #014AC2;
+  background-color: #014AC2;
 }
 
 .value-high {
-  backgroundColor: #09AD78;
+  background-color: #09AD78;
 }
 
 .value-average {
-  backgroundColor: #F9AD2C;
+  background-color: #F9AD2C;
 }
 
 .value-low {
-  backgroundColor: #F05A25;
+  background-color: #F05A25;
 }
 
 .value-poor {
-  backgroundColor: #CC3333;
+  background-color: #CC3333;
 }
