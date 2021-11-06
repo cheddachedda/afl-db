@@ -28,7 +28,9 @@
         <td><%= player.position.join(' / ') %></td>
         <td><%= player.average_fantasy_score %></td>
         <% player.fantasy_scores.last(10).each do |score| %>
-          <td><%= score %></td>
+          <td class="<%= get_score_class score %>">
+            <%= score %>
+          </td>
         <% end %>
       </tr>
     <% end %>

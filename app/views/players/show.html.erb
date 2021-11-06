@@ -19,7 +19,11 @@
       <tr>
         <td><%= Fixture.pluck(:round_id).uniq[i] %></td>
         <td><%= @player.get_all_opponents[i] %></td>
-        <td class="<%= get_score_class @player.fantasy_scores[i] %>"><%= @player.fantasy_scores[i] %></td>
+
+        <td class="<%= get_score_class @player.fantasy_scores[i] %>">
+          <%= @player.fantasy_scores[i] %>
+        </td>
+
         <td>
           <a
             class="fa-solid fa-circle-chevron-right"
