@@ -1,3 +1,31 @@
 // Place all the styles related to the Players controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: https://sass-lang.com/
+
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans&family=Noto+Sans+Mono&display=swap');
+
+form {
+  padding: 1rem 0.4rem;
+}
+
+input, select {
+  border: none;
+  border-radius: 0.2rem;
+  color: #191C28;
+  font-family: 'Noto Sans', sans-serif;
+  font-size: 1rem;
+  padding: 0.2rem 0.4rem;
+}
+
+.submit {
+  background-color: #07CDB8;
+  color: #293141;
+  cursor: pointer;
+  font-weight: bold;
+  margin-left: 1rem;
+  padding: 0.2rem 0.8rem;
+}
+
+.submit:hover, .submit:active {
+  color: #FFFFFF;
+}
