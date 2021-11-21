@@ -73,9 +73,9 @@ ActiveRecord::Schema.define(version: 2021_11_21_075306) do
 
   create_table "players", force: :cascade do |t|
     t.string "first_name"
+    t.string "middle_initial"
     t.string "last_name"
     t.bigint "club_id"
-    t.integer "jersey"
     t.string "position", default: [], array: true
     t.index ["club_id"], name: "index_players_on_club_id"
   end
