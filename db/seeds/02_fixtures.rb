@@ -80,9 +80,9 @@ def scrape_fixtures
       data = row.children.map{ |c| c.text.strip }
 
       # Match finalsiren.com's names to the names in our db
-      home = Club.find_by_name( @aliases.clubs[ data[0].to_sym ] )
-      away = Club.find_by_name( @aliases.clubs[ data[7].to_sym ] )
-      venue = @aliases.fixtures[ data[13]]
+      home = Club.find_by_name( @aliases[:clubs][data[0].to_sym] )
+      away = Club.find_by_name( @aliases[:clubs][data[7].to_sym] )
+      venue = @aliases[:grounds][data[13].to_sym]
 
       new_fixture = Fixture.create(
         :round_no => round_no,
