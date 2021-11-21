@@ -1,74 +1,120 @@
 require 'httparty'
 require 'nokogiri'
+require 'pry'
 
-# key = club name as it appears in fixturedownload.com
+# key = club name as it appears in finalsiren.com
 # value = :name as per our Club model
-@fixturedownload_aliases = {
-  :'Adelaide Crows' => 'Adelaide Crows',
-  :'Brisbane Lions' => 'Brisbane Lions',
-  :'Carlton' => 'Carlton Blues',
-  :'Collingwood' => 'Collingwood Magpies',
-  :'Essendon' => 'Essendon Bombers',
-  :'Fremantle' => 'Fremantle Dockers',
-  :'Geelong Cats' => 'Geelong Cats',
-  :'Gold Coast Suns' => 'Gold Coast Suns',
-  :'GWS Giants' => 'Greater Western Sydney Giants',
-  :'Hawthorn' => 'Hawthorn Hawks',
-  :'Melbourne' => 'Melbourne Demons',
-  :'North Melbourne' => 'North Melbourne Kangaroos',
-  :'Port Adelaide' => 'Port Adelaide Power',
-  :'Richmond' => 'Richmond Tigers',
-  :'St Kilda' => 'St Kilda Saints',
-  :'Sydney Swans' => 'Sydney Swans',
-  :'West Coast Eagles' => 'West Coast Eagles',
-  :'Western Bulldogs' => 'Western Bulldogs'
+@aliases = {
+  clubs: {
+    :'Adelaide' => 'Adelaide',
+    :'Brisbane Lions' => 'Brisbane',
+    :'Carlton' => 'Carlton',
+    :'Collingwood' => 'Collingwood',
+    :'Essendon' => 'Essendon',
+    :'Fremantle' => 'Fremantle',
+    :'Geelong' => 'Geelong',
+    :'Gold Coast' => 'Gold Coast',
+    :'GWS Giants' => 'Greater Western Sydney',
+    :'Hawthorn' => 'Hawthorn',
+    :'Melbourne' => 'Melbourne',
+    :'North Melbourne' => 'North Melbourne',
+    :'Port Adelaide' => 'Port Adelaide',
+    :'Richmond' => 'Richmond',
+    :'St Kilda' => 'St Kilda',
+    :'Sydney' => 'Sydney',
+    :'West Coast' => 'West Coast',
+    :'Western Bulldogs' => 'Western Bulldogs'
+  },
+  grounds: {
+    :"AAMI Stadium" => "Optus Stadium",
+    :"Adelaide Oval" => "Adelaide Oval",
+    :"Blundstone Arena" => "Blundstone Arena",
+    :"Cazaly's Stadium" => "Cazaly's Stadium",
+    :"Eureka Stadium" => "Mars Stadium",
+    :"Gabba" => "Gabba",
+    :"Manuka Oval" => "Manuka Oval",
+    :"Marvel Stadium" => "Marvel Stadium",
+    :"Melbourne Cricket Ground" => "MCG",
+    :"Metricon Stadium" => "Metricon Stadium",
+    :"Optus Stadium" => "Optus Stadium",
+    :"Simonds Stadium" => "GMHBA Stadium",
+    :"Sydney Cricket Ground" => "SCG",
+    :"Sydney Showground Stadium" => "GIANTS Stadium",
+    :"University of Tasmania Stadium" => "University of Tasmania Stadium"
+  }
 }
 
-def scrape_fixtures
-  url = "https://fixturedownload.com/results/afl-2021"
-  unparsed_page = HTTParty.get(url)
-  parsed_page = Nokogiri::HTML(unparsed_page.body)
-
-  # Each fixture is contained within each <tr>
-  rows = parsed_page.css('tbody').css('tr')
-
-  rows.each do |row|
-    data = row.css('td')
-
-    # Parse round_id from text
-    round_id = case data[0].text
-    when 'Finals W1'
-      round_id = 24
-    when 'Semi Finals'
-      round_id = 25
-    when 'Prelim Finals'
-      round_id = 26
-    when 'Grand Final'
-      round_id = 27
-    else
-      round_id = data[0].text.to_i
-    end
-
-    new_fixture = Fixture.create(
-      :round_id => round_id,
-      :datetime => DateTime.parse(data[1].text).new_offset(
-        DateTime.parse("04/04/2021 16:00") - DateTime.parse(data[1].text) >= 0 ?
-        "+10:00" : "+11:00"
-      ),
-      :venue => data[2].text,
-      :home_id => Club.find_by( name: @fixturedownload_aliases[data[3].text.to_sym] ).id,
-      :home_score => data[5].text.split(' - ')[0].to_i,
-      :away_id => Club.find_by( name: @fixturedownload_aliases[data[4].text.to_sym] ).id,
-      :away_score => data[5].text.split(' - ')[1].to_i
-    )
-
-    # Associate Clubs to Fixtures
-    new_fixture.clubs << Club.find( new_fixture[:home_id] ) << Club.find( new_fixture[:away_id] )
-
-    puts "R#{ round_id }: #{ new_fixture[:home_id] } v #{ new_fixture[:away_id] } created"
+def apply_offset time_string
+  dt = DateTime.parse time_string
+  dst_end = DateTime.parse "04/04/2021 16:00"
+  if (dt < dst_end)
+    DateTime.parse(time_string + ' +11')
+  else
+    DateTime.parse(time_string + ' +10')
   end
 end
 
-puts "Scraping fixtures"
+def scrape_fixtures
+  url = 'https://www.finalsiren.com/Results.asp?SeasonID=2021&Round=All'
+  unparsed_page = HTTParty.get(url)
+  parsed_page = Nokogiri::HTML(unparsed_page.body)
+
+  rows = parsed_page.css('tr')
+
+  round_no = 0
+
+  rows.each do |row|
+    # The rows don't have classes to differentiate, but they can be differentiated by `.children.size`
+    # Rows with 1 children = round label or empty row
+    # Rows with 9 children = header row
+    # Rows with 16 children = game data
+    case row.children.size
+    when 1
+      if row.text.include? 'Round '
+        round_no = row.text.split('Round ').last.to_i
+      elsif row.text.include? 'Finals Week '
+        round_no = row.text.split('Finals Week ').last.to_i + 23
+      end
+    when 16
+      # Returns an array of all columns
+      data = row.children.map{ |c| c.text.strip }
+
+      # Match finalsiren.com's names to the names in our db
+      home = Club.find_by_name( @aliases.clubs[ data[0].to_sym ] )
+      away = Club.find_by_name( @aliases.clubs[ data[7].to_sym ] )
+      venue = @aliases.fixtures[ data[13]]
+
+      new_fixture = Fixture.create(
+        :round_no => round_no,
+        :home_id => home.id,
+        :home_goals_qt => data[1].split('.').first.to_i,
+        :home_behinds_qt => data[1].split('.').last.to_i,
+        :home_goals_ht => data[2].split('.').first.to_i,
+        :home_behinds_ht => data[2].split('.').last.to_i,
+        :home_goals_3qt => data[3].split('.').first.to_i,
+        :home_behinds_3qt => data[3].split('.').last.to_i,
+        :home_goals_ft => data[4].split('.').first.to_i,
+        :home_behinds_ft => data[4].split('.').last.to_i,
+        :away_id => away.id,
+        :away_goals_qt => data[8].split('.').first.to_i,
+        :away_behinds_qt => data[8].split('.').last.to_i,
+        :away_goals_ht => data[9].split('.').first.to_i,
+        :away_behinds_ht => data[9].split('.').last.to_i,
+        :away_goals_3qt => data[10].split('.').first.to_i,
+        :away_behinds_3qt => data[10].split('.').last.to_i,
+        :away_goals_ft => data[11].split('.').first.to_i,
+        :away_behinds_ft => data[11].split('.').last.to_i,
+        :venue => venue,
+        :datetime => apply_offset(data[14])
+      )
+
+      new_fixture.clubs << home << away
+
+      puts "Created and associated Fixture: R#{ new_fixture.round_no }: #{ home.abbreviation } v #{ away.abbreviation }"
+    end
+  end
+end
+
 scrape_fixtures
-puts "#{ Fixture.count } games created and associated"
+
+puts "#{ Fixture.count } fixtures created and associated"
