@@ -26,7 +26,7 @@ require 'pry'
     :'Western Bulldogs' => 'Western Bulldogs'
   },
   grounds: {
-    :"AAMI Stadium" => "Optus Stadium",
+    :"AAMI Stadium" => "Optus Stadium", # They had this one error where they called it AAMI Stadium instead of Optus Stadium
     :"Adelaide Oval" => "Adelaide Oval",
     :"Blundstone Arena" => "Blundstone Arena",
     :"Cazaly's Stadium" => "Cazaly's Stadium",
@@ -44,6 +44,7 @@ require 'pry'
   }
 }
 
+# Converts a string time to a DateTime object and applies the correct GMT offset
 def apply_offset time_string
   dt = DateTime.parse time_string
   dst_end = DateTime.parse "04/04/2021 16:00"
@@ -76,7 +77,7 @@ def scrape_fixtures
         round_no = row.text.split('Finals Week ').last.to_i + 23
       end
     when 16
-      # Returns an array of all columns
+      # Returns an array of all columns in this row
       data = row.children.map{ |c| c.text.strip }
 
       # Match finalsiren.com's names to the names in our db
