@@ -45,11 +45,13 @@ def scrape_players
       last_name = last_name.split('. ').drop(1).join(' ')
     end
 
+    if
+
     new_player = Player.create(
       :first_name => first_name,
       :middle_initial => middle_initial,
       :last_name => last_name,
-      :club => Club.find_by_name( @aliases[ data[1].to_sym ] ),
+      :club => Club.find_by_name( @aliases[ data[1].strip.to_sym ] ),
       :position => data[2].split('/')
     )
 
