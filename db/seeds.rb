@@ -1,6 +1,7 @@
 Club.destroy_all
 Fixture.destroy_all
 Player.destroy_all
+GameLog.destroy_all
 
 start_time = Time.new
 
