@@ -45,8 +45,6 @@ def scrape_players
       last_name = last_name.split('. ').drop(1).join(' ')
     end
 
-    if
-
     new_player = Player.create(
       :first_name => first_name,
       :middle_initial => middle_initial,
