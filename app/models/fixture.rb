@@ -1,5 +1,6 @@
 class Fixture < ApplicationRecord
   has_and_belongs_to_many :clubs
+  has_many :game_logs
 
   def round
     case self.round_id

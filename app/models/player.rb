@@ -1,5 +1,6 @@
 class Player < ApplicationRecord
   belongs_to :club, :optional => true
+  has_many :game_logs
 
   def get_all_opponents
     self.club.get_all_opponents

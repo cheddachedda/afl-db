@@ -1,42 +1,57 @@
-require "httparty"
-require "nokogiri"
+require 'httparty'
+require 'nokogiri'
 
-# Scrapes all players from dtlive.com.au
-def dtlive_scraper
-  url = "http://dtlive.com.au/afl/dataview.php"
+# key = club name as it appears in afltables.com
+# value = :name as per our Club model
+@aliases = {
+  :'Adelaide' => 'Adelaide',
+  :'Brisbane Lions' => 'Brisbane',
+  :'Carlton' => 'Carlton',
+  :'Collingwood' => 'Collingwood',
+  :'Essendon' => 'Essendon',
+  :'Fremantle' => 'Fremantle',
+  :'Geelong' => 'Geelong',
+  :'Gold Coast' => 'Gold Coast',
+  :'Greater Western Sydney' => 'Greater Western Sydney',
+  :'Hawthorn' => 'Hawthorn',
+  :'Melbourne' => 'Melbourne',
+  :'North Melbourne' => 'North Melbourne',
+  :'Port Adelaide' => 'Port Adelaide',
+  :'Richmond' => 'Richmond',
+  :'St Kilda' => 'St Kilda',
+  :'Sydney' => 'Sydney',
+  :'West Coast' => 'West Coast',
+  :'Western Bulldogs' => 'Western Bulldogs'
+}
+
+def scrape_players
+  url = "https://afltables.com/afl/stats/2021.html"
   unparsed_page = HTTParty.get(url)
   parsed_page = Nokogiri::HTML(unparsed_page.body)
 
-  rows = parsed_page.css('tbody')[0].css('tr')
+  club_tables = parsed_page.css('.sortable')
+  club_tables.each do |club_table|
+    # Extracts the club name from the first <a> in the table
+    # Converts the afltables.com club name to its matching name in our db
+    club_name = @aliases[club_table.css('a').first.text.to_sym]
+    club = Club.find_by_name club_name
 
-  # Iterate through all rows (except 1 header row and 1 footer row)
-  rows.each do |row|
-    href = row.css('a')[0].attr('href')
-    name = dtlive_player_name_scraper(href)
+    club_table.css('tbody')[0].css('tr').each do |player_row|
+      data = player_row.css('td').map{ |td| td.text } # Returns an array of each <td>'s text
 
-    club_abbr = row.css('img').attr('src').value[7..9] # Gets the Club.abbreviation from the img.src
-    data = row.css('td').map { |td| td.text }
+      # Creates model
+      new_player = Player.create(
+        :first_name => data[1].split(', ').last,
+        :last_name => data[1].split(', ').first,
+        :club => club,
+        :jersey => data[0].to_i
+      )
 
-    player = {
-      :name => name,
-      :club_id => Club.find_by(abbreviation: club_abbr).id,
-      :position => data[2].upcase.split(','),
-      :fantasy_scores => data[14..].map{ |n| n.empty? ? nil : n.to_i },
-    }
-    Player.create(player)
-    puts player
+      puts "Created Player: #{ new_player[:first_name] } #{ new_player[:last_name]}"
+    end
   end
 end
 
-# Uses dtlive's player id to scrape the page at that path for the player's full name and DOB
-def dtlive_player_name_scraper href
-  player_path = "http://dtlive.com.au/afl/#{ href }"
-  unparsed_player_page = HTTParty.get(player_path)
-  parsed_player_page = Nokogiri::HTML(unparsed_player_page.body)
-
-  # The <h3> contains the player's name, followed by current age inside <small> tags
-  current_age = parsed_player_page.css('h3')[0].css('small').text
-  name = parsed_player_page.css('h3')[0].text.split(current_age).join().strip
-end
-
-dtlive_scraper
+puts "Scraping basic player info"
+scrape_players
+puts "#{ Player.count } players created"
