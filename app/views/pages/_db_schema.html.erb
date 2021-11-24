@@ -2,9 +2,10 @@
 <% models = params[:id] ? locals[:model].where(id: params[:id]) : locals[:model].all %>
 
 <!-- Selects models by params[:round] in Fixtures#round -->
-<% models = locals[:model].where(round_id: params[:round]) if params[:round] && params[:id].nil? %>
+<% models = locals[:model].where(round_no: params[:round]) if params[:round] && params[:id].nil? %>
 
 <h3>Database Schema:</h3>
+<p>(for development purposes only</p>
 <table class="db-schema">
 
   <thead>

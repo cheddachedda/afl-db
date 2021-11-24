@@ -1,6 +1,6 @@
 class PlayersController < ApplicationController
   def index
-    all_players = Player.all.sort_by{ |p| p.average_fantasy_score || 0 }.reverse
+    all_players = Player.all.sort_by{ |p| p.average_fantasy_score }
 
     # with_query_filter = all_players.filter{ |p| p.name.downcase.include? params[:query].downcase }
     #

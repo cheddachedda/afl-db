@@ -4,43 +4,43 @@ class Club < ApplicationRecord
   has_many :game_logs
 
   def wins
-    self.fixtures.filter{ |f| f.win? self }.count
+    fixtures.filter{ |f| f.win? self }.count
   end
 
   def draws
-    self.fixtures.filter{ |f| f.draw? }.count
+    fixtures.filter{ |f| f.draw? }.count
   end
 
   def losses
-    self.fixtures.filter{ |f| f.loss? self }.count
+    fixtures.filter{ |f| f.loss? self }.count
   end
 
   def record
-    "#{ self.wins }-#{ self.losses }#{ "-#{self.draws}" if self.draws > 0 }"
+    "#{ wins }-#{ losses }#{ "-#{draws}" if draws > 0 }"
   end
 
   def games_played
-    self.wins + self.draws + self.losses
+    wins + draws + losses
   end
 
   def points_for
-    home_points = self.fixtures.filter{ |f| f.home_id == self.id }.pluck(:home_score).sum
-    away_points = self.fixtures.filter{ |f| f.away_id == self.id }.pluck(:away_score).sum
+    home_points = fixtures.filter{ |f| f.isHome?(self) }.map{ |f| f.home_score }.sum
+    away_points = fixtures.filter{ |f| f.isAway?(self) }.map{ |f| f.away_score }.sum
     home_points + away_points
   end
 
   def points_against
-    home_points = self.fixtures.filter{ |f| f.home_id == self.id }.pluck(:away_score).sum
-    away_points = self.fixtures.filter{ |f| f.away_id == self.id }.pluck(:home_score).sum
+    home_points = fixtures.filter{ |f| f.isHome?(self) }.map{ |f| f.away_score }.sum
+    away_points = fixtures.filter{ |f| f.isAway?(self) }.map{ |f| f.home_score }.sum
     home_points + away_points
   end
 
   def percentage
-    (self.points_for.to_f / self.points_against * 100).round 2
+    (points_for.to_f / points_against * 100).round 2
   end
 
   def league_points
-    self.wins * 4 + self.draws * 2
+    wins * 4 + draws * 2
   end
 
   def rank
@@ -60,12 +60,12 @@ class Club < ApplicationRecord
   end
 
   def results
-    self.fixtures.map{ |f| self.result f }
+    fixtures.map{ |f| result f }
   end
 
   def get_all_opponents
-    home = self.fixtures.pluck(:home_id)
-    away = self.fixtures.pluck(:away_id)
+    home = fixtures.pluck(:home_id)
+    away = fixtures.pluck(:away_id)
     home
   end
 end

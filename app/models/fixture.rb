@@ -3,7 +3,7 @@ class Fixture < ApplicationRecord
   has_many :game_logs
 
   def round
-    case self.round_id
+    case round_no
     when 24
       'FW1'
     when 25
@@ -13,16 +13,16 @@ class Fixture < ApplicationRecord
     when 27
       'GF'
     else
-      self.round_id.to_s
+      round_no.to_s
     end
   end
 
   def date
-    self.datetime.strftime('%a %d %b')
+    datetime.strftime('%a %d %b')
   end
 
   def time
-    self.datetime.strftime('%l:%M%P')
+    datetime.strftime('%l:%M%P')
   end
 
   def home
@@ -33,59 +33,75 @@ class Fixture < ApplicationRecord
     Club.find away_id
   end
 
+  def isHome? club
+    club === home
+  end
+
+  def isAway? club
+    club === away
+  end
+
+  def home_score
+    home_goals_ft * 6 + home_behinds_ft
+  end
+
+  def away_score
+    away_goals_ft * 6 + away_behinds_ft
+  end
+
   def matchup
-    "#{ self.home.abbreviation } v #{ self.away.abbreviation }"
+    "#{ home.abbreviation } v #{ away.abbreviation }"
   end
 
   def winner
-    if self.home_score > self.away_score
-      Club.find self.home_id
-    elsif self.away_score > self.home_score
-      Club.find self.away_id
+    if home_score > away_score
+      Club.find home_id
+    elsif away_score > home_score
+      Club.find away_id
     end
   end
 
   def loser
-    if self.home_score < self.away_score
-      Club.find self.home_id
-    elsif self.away_score < self.home_score
-      Club.find self.away_id
+    if home_score < away_score
+      Club.find home_id
+    elsif away_score < home_score
+      Club.find away_id
     end
   end
 
   def is_regular_season
-    self.round_id < 24
+    round_no < 24
   end
 
   def is_finals
-    self.round_id > 23
+    round_no > 23
   end
 
   def short_name
-    "#{ self.home.abbreviation } v #{ self.away.abbreviation }"
+    "#{ home.abbreviation } v #{ away.abbreviation }"
   end
 
   def home_players
-    self.home.players
-             .filter{ |p| p.club_id == self.home_id && p.fantasy_scores[self.round_id - 1] }
-             .sort_by{|p| p.fantasy_scores[self.round_id - 1]}.reverse
+    home.players
+             .filter{ |p| p.club_id == home_id && p.fantasy_scores[round_no - 1] }
+             .sort_by{|p| p.fantasy_scores[round_no - 1]}.reverse
   end
 
   def away_players
-    self.away.players
-             .filter{ |p| p.club_id == self.away_id && p.fantasy_scores[self.round_id - 1] }
-             .sort_by{|p| p.fantasy_scores[self.round_id - 1]}.reverse
+    away.players
+             .filter{ |p| p.club_id == away_id && p.fantasy_scores[round_no - 1] }
+             .sort_by{|p| p.fantasy_scores[round_no - 1]}.reverse
   end
 
   def draw?
-    self.home_score == self.away_score
+    home_score == away_score
   end
 
   def win? team
-    team == self.winner
+    team == winner
   end
 
   def loss? team
-    team == self.loser
+    team == loser
   end
 end

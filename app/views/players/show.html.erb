@@ -17,7 +17,7 @@
   <tbody>
     <% (0..26).each do |i| %>
       <tr>
-        <td><%= Fixture.pluck(:round_id).uniq[i] %></td>
+        <td><%= Fixture.pluck(:round_no).uniq[i] %></td>
         <td><%= @player.get_all_opponents[i] %></td>
 
         <td class="<%= get_score_class @player.fantasy_scores[i] %>">
